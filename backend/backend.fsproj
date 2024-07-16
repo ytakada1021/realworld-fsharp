@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src/Domain/User/CommonTypes.fs" />
+    <Compile Include="src/Domain/Article/CommonTypes.fs" />
+    <Compile Include="src/Domain/Article/CreateArticle.fs" />
+    <Compile Include="src/Domain/Article/UpdateArticle.fs" />
+    <Compile Include="src/Query/FetchArticleBySlug.fs" />
+    <Compile Include="src/Application/CreateArticleService.fs" />
+    <Compile Include="src/Infra/Domain/Article/CommonTypes.fs" />
+    <Compile Include="src/Infra/Domain/Article/CreateArticle.fs" />
+    <Compile Include="src/Infra/Query/FetchArticleBySlug.fs" />
+    <Compile Include="src/Api/CommonTypes.fs" />
+    <Compile Include="src/Api/CreateArticleApi.fs" />
+    <Compile Include="src/Main.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="dapper" Version="2.1.35" />
+    <PackageReference Include="FsToolkit.ErrorHandling" Version="4.15.2" />
+    <PackageReference Include="Giraffe" Version="6.4.0" />
+  </ItemGroup>
+</Project>
