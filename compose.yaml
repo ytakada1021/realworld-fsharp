@@ -1,0 +1,21 @@
+services:
+  workspace:
+    build:
+      context: ./docker/workspace
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
+  db:
+    image: postgres:16
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "devuser"
+      POSTGRES_PASSWORD: "secret"
+volumes:
+  db-store:
