@@ -1,9 +1,10 @@
 ﻿open Api.CreateArticleHandler
+open Giraffe
+open Infra.Config
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
-open Giraffe
 
 let webApp = choose [ route "/api/articles" >=> createArticleApi ]
 
@@ -17,10 +18,15 @@ let configureServices (services: IServiceCollection) =
 
 [<EntryPoint>]
 let main _ =
+    DotEnv.init ()
+
     Host
         .CreateDefaultBuilder()
         .ConfigureWebHostDefaults(fun webHostBuilder ->
-            webHostBuilder.Configure(configureApp).ConfigureServices(configureServices)
+            webHostBuilder
+                .Configure(configureApp)
+                .ConfigureServices(configureServices)
+                .UseUrls("http://0.0.0.0:5000")
             |> ignore)
         .Build()
         .Run()

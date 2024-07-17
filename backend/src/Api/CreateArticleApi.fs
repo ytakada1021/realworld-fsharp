@@ -4,10 +4,11 @@ open Application.CreateArticleService
 open CommonTypes
 open Domain.Article.CreateArticle
 open Giraffe
-open Microsoft.AspNetCore.Http
+open Infra.Database
 open Infra.Domain.Article.CommonTypes
 open Infra.Domain.Article.CreateArticle
 open Infra.Query.FetchArticleBySlug
+open Microsoft.AspNetCore.Http
 
 type CreateArticleRequest = { Article: NewArticle }
 
@@ -21,6 +22,12 @@ let requestToDomainModel (request: CreateArticleRequest) : UnvalidatedArticle =
 let createArticleApi: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
+            let conn = createConnection ()
+            conn.Open()
+
+            let trx = conn.BeginTransaction()
+
+            let saveArticle = saveArticle conn trx
             // inject dependency
             let service = createArticleService checkAuthorExists saveArticle fetchArticleBySlug
 
@@ -29,6 +36,9 @@ let createArticleApi: HttpHandler =
 
             // call main logic
             let! article = request |> requestToDomainModel |> service
+
+            trx.Commit()
+            conn.Close()
 
             return!
                 match article with

@@ -10,6 +10,8 @@
     <Compile Include="src/Domain/Article/UpdateArticle.fs" />
     <Compile Include="src/Query/FetchArticleBySlug.fs" />
     <Compile Include="src/Application/CreateArticleService.fs" />
+    <Compile Include="src/Infra/Config/Config.fs" />
+    <Compile Include="src/Infra/Database/Database.fs" />
     <Compile Include="src/Infra/Domain/Article/CommonTypes.fs" />
     <Compile Include="src/Infra/Domain/Article/CreateArticle.fs" />
     <Compile Include="src/Infra/Query/FetchArticleBySlug.fs" />
@@ -21,5 +23,6 @@
     <PackageReference Include="dapper" Version="2.1.35" />
     <PackageReference Include="FsToolkit.ErrorHandling" Version="4.15.2" />
     <PackageReference Include="Giraffe" Version="6.4.0" />
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 </Project>
