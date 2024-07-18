@@ -4,7 +4,6 @@ open Application.CreateArticleService
 open CommonTypes
 open Domain.Article.CreateArticle
 open Giraffe
-open Infra.Database
 open Infra.Domain.Article.CommonTypes
 open Infra.Domain.Article.CreateArticle
 open Infra.Query.FetchArticleBySlug
@@ -22,9 +21,7 @@ let requestToDomainModel (request: CreateArticleRequest) : UnvalidatedArticle =
 let createArticleApi: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
-            let conn = createConnection ()
-            conn.Open()
-
+            let conn = ctx.Items["db"] :?> Npgsql.NpgsqlConnection
             let trx = conn.BeginTransaction()
 
             let saveArticle = saveArticle conn trx
@@ -38,7 +35,6 @@ let createArticleApi: HttpHandler =
             let! article = request |> requestToDomainModel |> service
 
             trx.Commit()
-            conn.Close()
 
             return!
                 match article with

@@ -1,20 +1,34 @@
-﻿open Api.CreateArticleHandler
+open ErrorHandling
 open Giraffe
 open Infra.Config
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.DependencyInjection
-
-let webApp = choose [ route "/api/articles" >=> createArticleApi ]
+open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
+open Routes
+open Infra.Database
 
 let configureApp (app: IApplicationBuilder) =
-    // Add Giraffe to the ASP.NET Core pipeline
-    app.UseGiraffe webApp
+    let webApp = withDbConnection >=> routes
+    app.UseGiraffeErrorHandler(errorHandler).UseGiraffe webApp
 
 let configureServices (services: IServiceCollection) =
     // Add Giraffe dependencies
     services.AddGiraffe() |> ignore
+
+let configureLogging (builder: ILoggingBuilder) =
+    // Set a logging filter (optional)
+    // let filter (l: LogLevel) = l.Equals LogLevel.Error
+
+    // Configure the logging factory
+    builder
+    // .AddFilter(filter) // Optional filter
+    // .AddConsole() // Set up the Console logger
+    // .AddDebug() // Set up the Debug logger
+
+    // Add additional loggers if wanted...
+    |> ignore
 
 [<EntryPoint>]
 let main _ =
@@ -26,6 +40,7 @@ let main _ =
             webHostBuilder
                 .Configure(configureApp)
                 .ConfigureServices(configureServices)
+                .ConfigureLogging(configureLogging)
                 .UseUrls("http://0.0.0.0:5000")
             |> ignore)
         .Build()
