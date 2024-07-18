@@ -15,15 +15,16 @@ type ArticleBody = private ArticleBody of string
 type Tag = private Tag of string
 
 
-type Article =
-    { Slug: Slug
-      Title: ArticleTitle
-      Description: ArticleDescription
-      Body: ArticleBody
-      TagList: Tag list
-      CreatedAt: DateTimeOffset
-      UpdatedAt: DateTimeOffset
-      AuthorId: UserId }
+type Article = {
+    Slug: Slug
+    Title: ArticleTitle
+    Description: ArticleDescription
+    Body: ArticleBody
+    TagList: Tag list
+    CreatedAt: DateTimeOffset
+    UpdatedAt: DateTimeOffset
+    AuthorId: UserId
+}
 
 /// Save article to persistence.
 type SaveArticle = Article -> Async<Result<unit, string>>

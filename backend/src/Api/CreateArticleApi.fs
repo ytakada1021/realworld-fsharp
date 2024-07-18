@@ -11,12 +11,13 @@ open Microsoft.AspNetCore.Http
 
 type CreateArticleRequest = { Article: NewArticle }
 
-let requestToDomainModel (request: CreateArticleRequest) : UnvalidatedArticle =
-    { Title = request.Article.Title
-      Description = request.Article.Description
-      Body = request.Article.Body
-      TagList = request.Article.TagList
-      AuthorId = "" }
+let requestToDomainModel (request: CreateArticleRequest) : UnvalidatedArticle = {
+    Title = request.Article.Title
+    Description = request.Article.Description
+    Body = request.Article.Body
+    TagList = request.Article.TagList
+    AuthorId = ""
+}
 
 let createArticleApi: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->

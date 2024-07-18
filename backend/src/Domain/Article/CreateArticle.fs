@@ -8,12 +8,13 @@ open Domain.User.CommonTypes
 open FsToolkit.ErrorHandling
 open System
 
-type UnvalidatedArticle =
-    { Title: string
-      Description: string
-      Body: string
-      TagList: string list
-      AuthorId: string }
+type UnvalidatedArticle = {
+    Title: string
+    Description: string
+    Body: string
+    TagList: string list
+    AuthorId: string
+}
 
 type CheckAuthorExistsError = UnexpectedError of string
 
@@ -44,13 +45,14 @@ let createArticle: CreateArticle =
             let tagList = unvalidatedArticle.TagList |> List.map (fun str -> Tag.create str)
             let! authorId = unvalidatedArticle.AuthorId |> UserId.create
 
-            return
-                { Article.Slug = slug
-                  Title = title
-                  Description = description
-                  Body = body
-                  TagList = []
-                  CreatedAt = DateTimeOffset.Now
-                  UpdatedAt = DateTimeOffset.Now
-                  AuthorId = authorId }
+            return {
+                Article.Slug = slug
+                Title = title
+                Description = description
+                Body = body
+                TagList = []
+                CreatedAt = DateTimeOffset.Now
+                UpdatedAt = DateTimeOffset.Now
+                AuthorId = authorId
+            }
         }

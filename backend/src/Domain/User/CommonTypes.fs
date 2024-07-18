@@ -13,6 +13,10 @@ module UserId =
 
     let create str = Ok(UserId str)
 
-    let generate () = Guid.NewGuid |> string |> create |> Result.either (fun v -> v) (failwith "Unexpected error")
+    let generate () =
+        Guid.NewGuid
+        |> string
+        |> create
+        |> Result.either (fun v -> v) (failwith "Unexpected error")
 
     let value (UserId str) = str

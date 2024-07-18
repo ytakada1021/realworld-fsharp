@@ -14,7 +14,14 @@ let createConnection () =
     let dbPassword = Environment.GetEnvironmentVariable "DB_PASSWORD"
 
     let builder =
-        new NpgsqlConnectionStringBuilder(Host = dbHost, Port = dbPort, Username = dbUser, Password = dbPassword, Database = dbDatabase, SslMode = SslMode.Disable)
+        new NpgsqlConnectionStringBuilder(
+            Host = dbHost,
+            Port = dbPort,
+            Username = dbUser,
+            Password = dbPassword,
+            Database = dbDatabase,
+            SslMode = SslMode.Disable
+        )
 
     new NpgsqlConnection(builder.ToString())
 

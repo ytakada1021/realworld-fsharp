@@ -7,32 +7,35 @@ open FsToolkit.ErrorHandling
 open Npgsql
 open System
 
-type ArticleDto =
-    { slug: string
-      title: string
-      description: string
-      body: string
-      author_id: string
-      created_at: DateTimeOffset
-      updated_at: DateTimeOffset }
+type ArticleDto = {
+    slug: string
+    title: string
+    description: string
+    body: string
+    author_id: string
+    created_at: DateTimeOffset
+    updated_at: DateTimeOffset
+}
 
 type TagDto = { slug: string; tag: string }
 
 let domainToDto (domain: Article) : (ArticleDto * TagDto list) =
-    let articleDto =
-        { ArticleDto.slug = domain.Slug |> Slug.value
-          title = domain.Title |> ArticleTitle.value
-          description = domain.Description |> ArticleDescription.value
-          body = domain.Body |> ArticleBody.value
-          author_id = domain.AuthorId |> UserId.value
-          created_at = domain.CreatedAt
-          updated_at = domain.UpdatedAt }
+    let articleDto = {
+        ArticleDto.slug = domain.Slug |> Slug.value
+        title = domain.Title |> ArticleTitle.value
+        description = domain.Description |> ArticleDescription.value
+        body = domain.Body |> ArticleBody.value
+        author_id = domain.AuthorId |> UserId.value
+        created_at = domain.CreatedAt
+        updated_at = domain.UpdatedAt
+    }
 
     let tagDtoList =
         domain.TagList
-        |> List.map (fun tag ->
-            { TagDto.slug = domain.Slug |> Slug.value
-              tag = tag |> Tag.value })
+        |> List.map (fun tag -> {
+            TagDto.slug = domain.Slug |> Slug.value
+            tag = tag |> Tag.value
+        })
 
     articleDto, tagDtoList
 
