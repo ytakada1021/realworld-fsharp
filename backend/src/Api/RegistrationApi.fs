@@ -44,9 +44,9 @@ let registrationApi: HttpHandler =
             // inject dependency
             let appKey = Environment.GetEnvironmentVariable "APP_KEY"
             let registeredClaims = {
-                RegisteredClaims.Iss = Environment.GetEnvironmentVariable "JWT_ISSUER" |> Some
-                Aud = Environment.GetEnvironmentVariable "JWT_AUDIENCE" |> Some
-                Exp = Environment.GetEnvironmentVariable "JWT_EXPIRATION_MINUTES" |> float |> Some
+                RegisteredClaims.Issuer = Environment.GetEnvironmentVariable "JWT_ISSUER" |> Some
+                Audience = Environment.GetEnvironmentVariable "JWT_AUDIENCE" |> Some
+                ExpirationMinutes = Environment.GetEnvironmentVariable "JWT_EXPIRATION_MINUTES" |> float |> Some
             }
             let checkEmailExists = checkEmailExists conn trx
             let saveUser = saveUser conn trx

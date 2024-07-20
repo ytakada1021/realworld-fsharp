@@ -33,9 +33,7 @@ let createUserWithToken: CreateUserWithToken =
             "image", user.Image |> Option.defaultValue ""
         ]
 
-        let token =
-            generateJwt key registeredClaims customClaims
-            |> Result.valueOr (fun _ -> failwith "Unexpected error")
+        let token = generateJwt key registeredClaims customClaims
 
         {
             Email = user.Email

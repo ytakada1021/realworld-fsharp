@@ -9,37 +9,33 @@ open FsToolkit.ErrorHandling
 
 // RFC7519 4.1
 type RegisteredClaims = {
-    Iss: string option // issuer
-    Aud: string option // audience
-    Exp: float option // expiration time
+    Issuer: string option
+    Audience: string option
+    ExpirationMinutes: float option
 }
-
-type GenerateJwtError = | ExpIsSetBeforeNbf
 
 type GenerateJwt =
     string // input: key string
         -> RegisteredClaims // input
         -> (string * string) list // input: custom claims
-        -> Result<string, GenerateJwtError> // output: jwt
+        -> string // output: jwt
 
 let generateJwt: GenerateJwt =
-    fun key registeredClaims customClaims ->
-        result {
-            let credentials =
-                let securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
+    fun appKey registeredClaims customClaims ->
+        let credentials =
+            let securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appKey))
+            new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
 
-            let tokenDescriptor: JwtSecurityToken =
-                new JwtSecurityToken(
-                    registeredClaims.Iss |> Option.defaultValue "", // iss
-                    registeredClaims.Aud |> Option.defaultValue "", // aud
-                    customClaims |> List.map (fun (k, v) -> new Claim(k, v)),
-                    Nullable(), // not before
-                    registeredClaims.Exp
-                    |> Option.map (fun exp -> DateTime.Now.AddMinutes exp |> Nullable)
-                    |> Option.defaultValue (Nullable()),
-                    credentials
-                )
+        let tokenDescriptor: JwtSecurityToken =
+            new JwtSecurityToken(
+                registeredClaims.Issuer |> Option.defaultValue "", // iss
+                registeredClaims.Audience |> Option.defaultValue "", // aud
+                customClaims |> List.map (fun (k, v) -> new Claim(k, v)),
+                Nullable(), // not before
+                registeredClaims.ExpirationMinutes
+                |> Option.map (fun minutes -> DateTime.Now.AddMinutes minutes |> Nullable)
+                |> Option.defaultValue (Nullable()),
+                credentials
+            )
 
-            return (new JwtSecurityTokenHandler()).WriteToken(tokenDescriptor)
-        }
+        (new JwtSecurityTokenHandler()).WriteToken(tokenDescriptor)
