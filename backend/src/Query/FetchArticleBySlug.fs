@@ -15,8 +15,8 @@ type Article = {
     Description: string
     Body: string
     TagList: string list
-    CreatedAt: DateTime
-    UpdatedAt: DateTime
+    CreatedAt: DateTimeOffset
+    UpdatedAt: DateTimeOffset
     Favorited: bool
     FavoritesCount: int
     Author: Author

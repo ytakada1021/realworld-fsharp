@@ -7,5 +7,5 @@ let checkAuthorExists: CheckAuthorExists =
     fun userId ->
         asyncResult {
             printf "check author exists: %A\n" userId
-            return true
+            return userId
         }

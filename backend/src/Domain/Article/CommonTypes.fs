@@ -14,7 +14,6 @@ type ArticleBody = private ArticleBody of string
 
 type Tag = private Tag of string
 
-
 type Article = {
     Slug: Slug
     Title: ArticleTitle
@@ -27,7 +26,7 @@ type Article = {
 }
 
 /// Save article to persistence.
-type SaveArticle = Article -> Async<Result<unit, string>>
+type SaveArticle = Article -> Async<unit>
 
 module Slug =
     type InvalidSlugError =
@@ -41,7 +40,7 @@ module Slug =
         Guid.NewGuid()
         |> string
         |> create
-        |> Result.either (fun v -> v) (fun _ -> failwith "Unexpected error")
+        |> Result.valueOr (fun _ -> failwith "Unexpected error")
 
     let value (Slug str) = str
 

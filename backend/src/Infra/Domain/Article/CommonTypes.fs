@@ -41,13 +41,15 @@ let domainToDto (domain: Article) : (ArticleDto * TagDto list) =
 
 let saveArticle (dbConnection: NpgsqlConnection) (transaction: NpgsqlTransaction) : SaveArticle =
     fun article ->
-        asyncResult {
+        async {
             let articleDto, tagDtoList = article |> domainToDto
 
             let insertArticleSql =
                 """
                     INSERT INTO "articles" ("slug", "title", "description", "body", "author_id", "created_at", "updated_at")
                     VALUES (@slug, @title, @description, @body, @author_id, @created_at, @updated_at)
+                    ON CONFLICT ("slug")
+                    SET "title" = @title, "description" = @description, "body" = @body, "author_id" = @author_id, "created_at" = @created_at, "updated_at" = @updated_at;
                 """
 
             dbConnection.Execute(insertArticleSql, articleDto, transaction) |> ignore
@@ -57,7 +59,7 @@ let saveArticle (dbConnection: NpgsqlConnection) (transaction: NpgsqlTransaction
             let deleteTagSql =
                 """
                     DELETE FROM "tags"
-                    WHERE "tags"."slug" = @slug
+                    WHERE "tags"."slug" = @slug;
                 """
 
             dbConnection.Execute(deleteTagSql, {| slug = articleDto.slug |}, transaction)
@@ -68,7 +70,7 @@ let saveArticle (dbConnection: NpgsqlConnection) (transaction: NpgsqlTransaction
             let insertTagSql =
                 """
                     INSERT INTO "tags" ("slug", "tag")
-                    VALUES (@slug, @tag)
+                    VALUES (@slug, @tag);
                 """
 
             dbConnection.Execute(insertTagSql, tagDtoList, transaction) |> ignore

@@ -6,16 +6,14 @@ open Domain.User.CommonTypes
 open FsToolkit.ErrorHandling
 open Query.FetchArticleBySlug
 
-type CreateArticleServiceError =
-    | CreateArticleError of CreateArticleError
-    | UnexpectedError
+type CreateArticleServiceError = CreateArticleError
 
 type CreateArticleService =
     CheckAuthorExists // dependency
         -> SaveArticle // dependency
         -> FetchArticleBySlug // dependency
         -> UnvalidatedArticle // input
-        -> Async<Result<Article, string>> // output
+        -> Async<Result<Article, CreateArticleServiceError>> // output
 
 let createArticleService: CreateArticleService =
     fun checkAuthorExists saveArticle fetchArticleBySlug unvalidatedArticle ->

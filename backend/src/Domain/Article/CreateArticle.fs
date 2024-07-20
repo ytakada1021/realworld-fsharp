@@ -1,10 +1,12 @@
 module Domain.Article.CreateArticle
 
-open CommonTypes
-open CommonTypes.ArticleBody
-open CommonTypes.ArticleTitle
-open CommonTypes.ArticleDescription
+open Domain.Article.CommonTypes
+open Domain.Article.CommonTypes.ArticleBody
+open Domain.Article.CommonTypes.ArticleTitle
+open Domain.Article.CommonTypes.ArticleDescription
+open Domain.Article.CommonTypes.Tag
 open Domain.User.CommonTypes
+open Domain.User.CommonTypes.UserId
 open FsToolkit.ErrorHandling
 open System
 
@@ -16,24 +18,22 @@ type UnvalidatedArticle = {
     AuthorId: string
 }
 
-type CheckAuthorExistsError = UnexpectedError of string
+type CheckAuthorExistsError = AuthorNotFound
 
-type CheckAuthorExists = UserId -> Async<Result<bool, string>>
+type CheckAuthorExists = UserId -> Async<Result<UserId, CheckAuthorExistsError>>
 
 type CreateArticleError =
     | InvalidTitle of InvalidArticleTitleError
     | InvalidDescription of InvalidArticleDescriptionError
     | InvalidBody of InvalidArticleBodyError
-    | InvalidTag
-    | InvalidAuthor
-    | UnexpectedError
+    | InvalidTag of InvalidTagError
+    | InvalidAuthorId of InvalidUserIdError
+    | AuthorNotFound
 
 type CreateArticle =
     CheckAuthorExists // dependency
         -> UnvalidatedArticle // input
-        -> Async<Result<Article, string>> // output
-
-let toCheckedAuthorId (checkAuthorExists: CheckAuthorExists) (authorId: UserId) = asyncResult { return authorId } // TODO: 実装
+        -> Async<Result<Article, CreateArticleError>> // output
 
 let createArticle: CreateArticle =
     fun checkAuthorExists unvalidatedArticle ->
@@ -43,7 +43,11 @@ let createArticle: CreateArticle =
             let! description = unvalidatedArticle.Description |> ArticleDescription.create
             let! body = unvalidatedArticle.Body |> ArticleBody.create
             let tagList = unvalidatedArticle.TagList |> List.map (fun str -> Tag.create str)
-            let! authorId = unvalidatedArticle.AuthorId |> UserId.create
+            let! authorId =
+                unvalidatedArticle.AuthorId
+                |> UserId.create
+                |> Result.mapError (fun err -> InvalidAuthorId err)
+            let! checkedAuthorId = authorId |> checkAuthorExists |> AsyncResult.mapError (fun _ -> AuthorNotFound)
 
             return {
                 Article.Slug = slug
@@ -53,6 +57,6 @@ let createArticle: CreateArticle =
                 TagList = []
                 CreatedAt = DateTimeOffset.Now
                 UpdatedAt = DateTimeOffset.Now
-                AuthorId = authorId
+                AuthorId = checkedAuthorId
             }
         }
