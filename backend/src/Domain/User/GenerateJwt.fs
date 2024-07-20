@@ -1,14 +1,7 @@
 module Domain.User.GenerateJwt
 
 open Domain.Auth.Jwt
-open FsToolkit.ErrorHandling
-
-type AuthenticatedUser = {
-    Email: string
-    Username: string
-    Bio: string option
-    Image: string option
-}
+open Domain.User.AuthenticateUser
 
 type UserWithToken = {
     Email: string

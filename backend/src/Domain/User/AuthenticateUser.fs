@@ -3,8 +3,6 @@ module Domain.User.AuthenticateUser
 open Domain.Auth.CommonTypes
 open Domain.CommonTypes
 open FsToolkit.ErrorHandling
-open GenerateJwt
-open System
 
 type Credentials = { Email: string; RawPassword: string }
 
@@ -14,8 +12,13 @@ type User = {
     Username: string
     Bio: string option
     Image: string option
-    CreatedAt: DateTimeOffset
-    UpdatedAt: DateTimeOffset
+}
+
+type AuthenticatedUser = {
+    Email: string
+    Username: string
+    Bio: string option
+    Image: string option
 }
 
 type FetchUserByEmail = Email -> Async<Option<User>>

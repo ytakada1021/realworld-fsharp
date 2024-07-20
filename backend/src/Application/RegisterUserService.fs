@@ -2,6 +2,7 @@ module Application.RegisterUserService
 
 open Domain.Auth.Jwt
 open Domain.CommonTypes
+open Domain.User.AuthenticateUser
 open Domain.User.CommonTypes
 open Domain.User.CreateUser
 open Domain.User.GenerateJwt

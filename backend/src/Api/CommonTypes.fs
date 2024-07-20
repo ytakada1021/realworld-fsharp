@@ -16,6 +16,8 @@ type User = {
     Image: string option
 }
 
+type LoginUser = { Email: string; Password: string }
+
 type Author = {
     Username: string
     Bio: string
