@@ -3,6 +3,9 @@
     "devcontainer",
     "favorited",
     "ionide",
+    "npgsql",
+    "openapi",
+    "unfollow",
     "unvalidated"
   ]
 }

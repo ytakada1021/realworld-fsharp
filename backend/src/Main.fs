@@ -1,6 +1,7 @@
 open ErrorHandling
 open Giraffe
 open Infra.Config
+open Infra.Database
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.DependencyInjection
@@ -33,6 +34,7 @@ let configureLogging (builder: ILoggingBuilder) =
 [<EntryPoint>]
 let main _ =
     DotEnv.init ()
+    addOptionHandlers ()
 
     Host
         .CreateDefaultBuilder()
