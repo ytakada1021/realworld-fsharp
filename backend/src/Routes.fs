@@ -12,5 +12,5 @@ let routes: HttpHandler =
         (choose [
             route "/users" >=> choose [ POST >=> registrationApi ]
             route "/users/login" >=> POST >=> authenticateApi
-            route "/articles" >=> choose [ POST >=> authenticate >=> createArticleApi ]
+            route "/articles" >=> choose [ POST >=> mustBeLoggedIn >=> createArticleApi ]
         ])

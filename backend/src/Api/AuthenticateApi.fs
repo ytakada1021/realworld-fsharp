@@ -18,6 +18,21 @@ module AuthenticateRequest =
         RawPassword = request.User.Password
     }
 
+type AuthenticateResponse = { User: User }
+
+module AuthenticateResponse =
+    open Domain.User.GenerateJwt
+
+    let fromDomain (domain: UserWithToken) : AuthenticateResponse = {
+        User = {
+            Email = domain.Email
+            Token = domain.Token
+            Username = domain.Username
+            Bio = domain.Bio
+            Image = domain.Image
+        }
+    }
+
 let authenticateApi: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
@@ -39,6 +54,9 @@ let authenticateApi: HttpHandler =
 
             return!
                 match result with
-                | (Ok user) -> json user next ctx
+                | (Ok user) ->
+                    user
+                    |> AuthenticateResponse.fromDomain
+                    |> fun response -> json response next ctx
                 | (Error err) -> json err next ctx
         }
