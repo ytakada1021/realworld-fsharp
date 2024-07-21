@@ -3,7 +3,6 @@ module Infra.Domain.Article.CommonTypes
 open Dapper
 open Domain.Article.CommonTypes
 open Domain.User.CommonTypes
-open FsToolkit.ErrorHandling
 open Npgsql
 open System
 
@@ -49,7 +48,7 @@ let saveArticle (dbConnection: NpgsqlConnection) (transaction: NpgsqlTransaction
                     INSERT INTO "articles" ("slug", "title", "description", "body", "author_id", "created_at", "updated_at")
                     VALUES (@slug, @title, @description, @body, @author_id, @created_at, @updated_at)
                     ON CONFLICT ("slug")
-                    SET "title" = @title, "description" = @description, "body" = @body, "author_id" = @author_id, "created_at" = @created_at, "updated_at" = @updated_at;
+                    DO UPDATE SET "title" = @title, "description" = @description, "body" = @body, "author_id" = @author_id, "created_at" = @created_at, "updated_at" = @updated_at;
                 """
 
             dbConnection.Execute(insertArticleSql, articleDto, transaction) |> ignore
