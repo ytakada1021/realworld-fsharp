@@ -1,6 +1,7 @@
 module Domain.User.AuthenticateUser
 
 open Domain.Auth.CommonTypes
+open Domain.User.GenerateJwt
 open Domain.CommonTypes
 open FsToolkit.ErrorHandling
 
@@ -10,14 +11,6 @@ type User = {
     UserId: string
     Email: string
     HashedPassword: string
-    Username: string
-    Bio: string option
-    Image: string option
-}
-
-type AuthenticatedUser = {
-    UserId: string
-    Email: string
     Username: string
     Bio: string option
     Image: string option
@@ -58,6 +51,6 @@ let authenticate: Authenticate =
 
             return!
                 match Password.verify credentials.RawPassword user.HashedPassword with
-                | false -> Error PasswordVerificationFailed
                 | true -> user |> toAuthenticatedUser |> Ok
+                | false -> Error PasswordVerificationFailed
         }

@@ -1,7 +1,14 @@
 module Domain.User.GenerateJwt
 
 open Domain.Auth.Jwt
-open Domain.User.AuthenticateUser
+
+type AuthenticatedUser = {
+    UserId: string
+    Email: string
+    Username: string
+    Bio: string option
+    Image: string option
+}
 
 type UserWithToken = {
     UserId: string
