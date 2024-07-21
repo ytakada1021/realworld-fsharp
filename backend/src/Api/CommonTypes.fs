@@ -44,3 +44,5 @@ type Article = {
     FavoritesCount: int
     Author: Author
 }
+
+type GenericError = { Errors: {| Body: string list |} }
