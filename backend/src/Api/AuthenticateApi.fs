@@ -3,6 +3,7 @@ module Api.AuthenticateApi
 open Application.Authenticate
 open CommonTypes
 open Domain.Auth.Jwt
+open ErrorHandling
 open Giraffe
 open Infra.Domain.User.AuthenticateUser
 open Microsoft.AspNetCore.Http
@@ -58,5 +59,7 @@ let authenticateApi: HttpHandler =
                     user
                     |> AuthenticateResponse.fromDomain
                     |> fun response -> json response next ctx
-                | (Error err) -> json err next ctx
+                | (Error err) ->
+                    let errMessage = err |> string
+                    validationErrorHandler [ errMessage ] next ctx
         }

@@ -4,6 +4,7 @@ open Application.RegisterUserService
 open CommonTypes
 open Domain.Auth.Jwt
 open Domain.User.CreateUser
+open ErrorHandling
 open Giraffe
 open Infra.Domain.User.CommonTypes
 open Infra.Domain.User.CreateUser
@@ -64,5 +65,7 @@ let registrationApi: HttpHandler =
                     user
                     |> RegistrationResponse.fromDomain
                     |> (fun response -> json response next ctx)
-                | (Error err) -> text (sprintf "%A" err) next ctx
+                | (Error err) ->
+                    let errMessage = err |> string
+                    validationErrorHandler [ errMessage ] next ctx
         }
