@@ -15,11 +15,13 @@
     <Compile Include="src/Domain/Article/CreateArticle.fs" />
     <Compile Include="src/Domain/Article/UpdateArticle.fs" />
     <Compile Include="src/Query/FetchArticleBySlug.fs" />
+    <Compile Include="src/Query/FetchAllTags.fs" />
     <Compile Include="src/Query/FetchUserById.fs" />
     <Compile Include="src/Application/AuthenticateService.fs" />
     <Compile Include="src/Application/CreateArticleService.fs" />
     <Compile Include="src/Application/RegisterUserService.fs" />
     <Compile Include="src/Application/GetCurrentUserService.fs" />
+    <Compile Include="src/Application/GetTagsService.fs" />
     <Compile Include="src/Infra/Config/Config.fs" />
     <Compile Include="src/Infra/Database/Database.fs" />
     <Compile Include="src/Infra/Domain/User/CommonTypes.fs" />
@@ -28,6 +30,7 @@
     <Compile Include="src/Infra/Domain/Article/CreateArticle.fs" />
     <Compile Include="src/Infra/Domain/User/AuthenticateUser.fs" />
     <Compile Include="src/Infra/Query/FetchArticleBySlug.fs" />
+    <Compile Include="src/Infra/Query/FetchAllTags.fs" />
     <Compile Include="src/Infra/Query/FetchUserById.fs" />
     <Compile Include="src/Api/CommonTypes.fs" />
     <Compile Include="src/Auth.fs" />
@@ -35,6 +38,7 @@
     <Compile Include="src/Api/AuthenticateApi.fs" />
     <Compile Include="src/Api/CreateArticleApi.fs" />
     <Compile Include="src/Api/GetCurrentUserApi.fs" />
+    <Compile Include="src/Api/GetTagsApi.fs" />
     <Compile Include="src/Api/RegistrationApi.fs" />
     <Compile Include="src/Routes.fs" />
     <Compile Include="src/Main.fs" />

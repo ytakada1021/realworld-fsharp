@@ -3,6 +3,7 @@ module Routes
 open Api.AuthenticateApi
 open Api.CreateArticleHandler
 open Api.GetCurrentUserApi
+open Api.GetTagsApi
 open Api.RegistrationApi
 open Auth
 open Giraffe
@@ -15,4 +16,5 @@ let routes: HttpHandler =
             route "/users" >=> choose [ POST >=> registrationApi ]
             route "/users/login" >=> POST >=> authenticateApi
             route "/articles" >=> choose [ POST >=> mustBeLoggedIn >=> createArticleApi ]
+            route "/tags" >=> GET >=> getTagsApi
         ])

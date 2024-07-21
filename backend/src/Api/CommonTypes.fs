@@ -1,7 +1,5 @@
 module Api.CommonTypes
 
-open System
-
 type NewUser = {
     Username: string
     Email: string
