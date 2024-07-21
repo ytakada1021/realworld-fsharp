@@ -18,8 +18,9 @@ type RegisterUserService =
         -> UnvalidatedUser // input
         -> Async<Result<UserWithToken, RegisterUserServiceError>> // output
 
-let toAuthenticatedUser (user: User) = {
-    AuthenticatedUser.Email = user.Email |> Email.value
+let toAuthenticatedUser (user: User) : AuthenticatedUser = {
+    UserId = user.UserId |> UserId.value
+    Email = user.Email |> Email.value
     Username = user.Username |> Username.value
     Bio = user.Bio |> Option.map (fun bio -> Bio.value bio)
     Image = user.Image |> Option.map (fun image -> Image.value image)

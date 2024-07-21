@@ -6,6 +6,7 @@ open Domain.User.AuthenticateUser
 open Npgsql
 
 type UserDto = {
+    user_id: string
     email: string
     hashed_password: string
     username: string
@@ -15,6 +16,7 @@ type UserDto = {
 
 module UserDto =
     let toDomain (dto: UserDto) : User = {
+        UserId = dto.user_id
         Email = dto.email
         HashedPassword = dto.hashed_password
         Username = dto.username
@@ -28,6 +30,7 @@ let fetchUserByEmail (dbConnection: NpgsqlConnection) : FetchUserByEmail =
             let sql =
                 """
                     SELECT
+                        "user_id",
                         "email",
                         "hashed_password",
                         "username",

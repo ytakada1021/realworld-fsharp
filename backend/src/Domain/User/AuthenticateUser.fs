@@ -7,6 +7,7 @@ open FsToolkit.ErrorHandling
 type Credentials = { Email: string; RawPassword: string }
 
 type User = {
+    UserId: string
     Email: string
     HashedPassword: string
     Username: string
@@ -15,6 +16,7 @@ type User = {
 }
 
 type AuthenticatedUser = {
+    UserId: string
     Email: string
     Username: string
     Bio: string option
@@ -33,8 +35,9 @@ type Authenticate =
         -> Credentials // input
         -> Async<Result<AuthenticatedUser, AuthenticationError>> // output
 
-let toAuthenticatedUser (user: User) = {
-    AuthenticatedUser.Email = user.Email
+let toAuthenticatedUser (user: User) : AuthenticatedUser = {
+    UserId = user.UserId
+    Email = user.Email
     Username = user.Username
     Bio = user.Bio
     Image = user.Image

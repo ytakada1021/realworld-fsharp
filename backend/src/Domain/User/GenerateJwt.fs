@@ -4,6 +4,7 @@ open Domain.Auth.Jwt
 open Domain.User.AuthenticateUser
 
 type UserWithToken = {
+    UserId: string
     Email: string
     Token: string
     Username: string
@@ -20,6 +21,7 @@ type CreateUserWithToken =
 let createUserWithToken: CreateUserWithToken =
     fun key registeredClaims user ->
         let customClaims = [
+            "user_id", user.UserId
             "email", user.Email
             "username", user.Username
             "bio", user.Bio |> Option.defaultValue ""
@@ -29,6 +31,7 @@ let createUserWithToken: CreateUserWithToken =
         let token = generateJwt key registeredClaims customClaims
 
         {
+            UserId = user.UserId
             Email = user.Email
             Token = token
             Username = user.Username
