@@ -42,7 +42,10 @@ let createArticle: CreateArticle =
             let! title = unvalidatedArticle.Title |> ArticleTitle.create
             let! description = unvalidatedArticle.Description |> ArticleDescription.create
             let! body = unvalidatedArticle.Body |> ArticleBody.create
-            let tagList = unvalidatedArticle.TagList |> List.map (fun str -> Tag.create str)
+            let! tagList =
+                unvalidatedArticle.TagList
+                |> List.map (fun str -> Tag.create str)
+                |> List.traverseResultM (fun result -> result)
             let! authorId =
                 unvalidatedArticle.AuthorId
                 |> UserId.create
@@ -54,7 +57,7 @@ let createArticle: CreateArticle =
                 Title = title
                 Description = description
                 Body = body
-                TagList = []
+                TagList = tagList
                 CreatedAt = DateTimeOffset.Now
                 UpdatedAt = DateTimeOffset.Now
                 AuthorId = checkedAuthorId

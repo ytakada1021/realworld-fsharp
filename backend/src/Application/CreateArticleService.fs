@@ -22,7 +22,9 @@ let createArticleService: CreateArticleService =
             do! article |> saveArticle
 
             let queryModel =
-                article.AuthorId |> UserId.value |> fetchArticleBySlug |> Async.RunSynchronously
+                let slug = article.Slug |> Slug.value
+                let userId = article.AuthorId |> UserId.value
+                fetchArticleBySlug slug userId |> Async.RunSynchronously
 
             return
                 match queryModel with

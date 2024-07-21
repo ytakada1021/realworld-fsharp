@@ -38,10 +38,10 @@ type Article = {
     Description: string
     Body: string
     TagList: string list
-    CreatedAt: DateTime
-    UpdatedAt: DateTime
+    CreatedAt: string
+    UpdatedAt: string
     Favorited: bool
-    FavoritesCount: int
+    FavoritesCount: int64
     Author: Author
 }
 

@@ -22,6 +22,29 @@ module CreateArticleRequest =
         AuthorId = userId
     }
 
+type CreateArticleResponse = { Article: Article }
+
+module CreateArticleResponse =
+    let fromQueryModel (model: Query.FetchArticleBySlug.Article) : CreateArticleResponse = {
+        Article = {
+            Slug = model.Slug
+            Title = model.Title
+            Description = model.Description
+            Body = model.Body
+            TagList = model.TagList
+            CreatedAt = model.CreatedAt.ToIsoString()
+            UpdatedAt = model.UpdatedAt.ToIsoString()
+            Favorited = model.Favorited
+            FavoritesCount = model.FavoritesCount
+            Author = {
+                Username = model.Author.Username
+                Bio = model.Author.Bio
+                Image = model.Author.Image
+                Following = model.Author.Following
+            }
+        }
+    }
+
 let createArticleApi: HttpHandler =
     fun (next: HttpFunc) (ctx: HttpContext) ->
         task {
@@ -31,16 +54,20 @@ let createArticleApi: HttpHandler =
 
             // inject dependencies
             let saveArticle = saveArticle conn trx
+            let fetchArticleBySlug = fetchArticleBySlug conn
+            let checkAuthorExists = checkAuthorExists conn
             let service = createArticleService checkAuthorExists saveArticle fetchArticleBySlug
 
             let! request = ctx.BindJsonAsync<CreateArticleRequest>()
-            let! article = CreateArticleRequest.toDomain request userId |> service
+            let! result = CreateArticleRequest.toDomain request userId |> service
 
             trx.Commit()
 
             return!
-                match article with
-                | Ok(v) -> json v next ctx
+                match result with
+                | Ok(article) ->
+                    let response = CreateArticleResponse.fromQueryModel article
+                    json response next ctx
                 | Error(err) ->
                     let errMessage = err |> string
                     validationErrorHandler [ errMessage ] next ctx

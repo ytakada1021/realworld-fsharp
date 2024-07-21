@@ -7,6 +7,13 @@ open Npgsql
 open System
 open System.Threading.Tasks
 
+type DateTimeOffsetHandler() =
+    inherit SqlMapper.TypeHandler<DateTimeOffset>()
+
+    override __.SetValue(param, value) = param.Value <- value
+
+    override __.Parse value = DateTimeOffset.Parse(string value)
+
 type OptionHandler<'T>() =
     inherit SqlMapper.TypeHandler<option<'T>>()
 
@@ -25,6 +32,7 @@ type OptionHandler<'T>() =
             Some(value :?> 'T)
 
 let addOptionHandlers () =
+    SqlMapper.AddTypeHandler(DateTimeOffsetHandler())
     SqlMapper.AddTypeHandler(OptionHandler<string>())
     SqlMapper.AddTypeHandler(OptionHandler<int>())
     SqlMapper.AddTypeHandler(OptionHandler<DateTimeOffset>())
