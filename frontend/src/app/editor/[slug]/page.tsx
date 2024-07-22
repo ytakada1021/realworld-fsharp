@@ -16,16 +16,15 @@ const EditArticlePage = () => (
                 <input type="text" className="form-control" placeholder="What's this article about?" />
               </fieldset>
               <fieldset className="form-group">
-                <textarea
-                  className="form-control"
-                  rows={8}
-                  placeholder="Write your article (in markdown)"
-                ></textarea>
+                <textarea className="form-control" rows={8} placeholder="Write your article (in markdown)"></textarea>
               </fieldset>
               <fieldset className="form-group">
                 <input type="text" className="form-control" placeholder="Enter tags" />
                 <div className="tag-list">
-                  <span className="tag-default tag-pill"> <i className="ion-close-round"></i> tag </span>
+                  <span className="tag-default tag-pill">
+                    {" "}
+                    <i className="ion-close-round"></i> tag{" "}
+                  </span>
                 </div>
               </fieldset>
               <button className="btn btn-lg pull-xs-right btn-primary" type="button">
@@ -37,6 +36,6 @@ const EditArticlePage = () => (
       </div>
     </div>
   </div>
-)
+);
 
-export default EditArticlePage
+export default EditArticlePage;

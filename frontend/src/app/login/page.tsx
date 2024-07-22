@@ -25,6 +25,6 @@ const SignInPage = () => (
       </div>
     </div>
   </div>
-)
+);
 
-export default SignInPage
+export default SignInPage;

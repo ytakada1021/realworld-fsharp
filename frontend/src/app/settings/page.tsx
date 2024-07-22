@@ -28,11 +28,7 @@ const SettingsPage = () => (
                 <input className="form-control form-control-lg" type="text" placeholder="Email" />
               </fieldset>
               <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="password"
-                  placeholder="New Password"
-                />
+                <input className="form-control form-control-lg" type="password" placeholder="New Password" />
               </fieldset>
               <button className="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
             </fieldset>
@@ -43,6 +39,6 @@ const SettingsPage = () => (
       </div>
     </div>
   </div>
-)
+);
 
-export default SettingsPage
+export default SettingsPage;

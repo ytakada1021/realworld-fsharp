@@ -28,6 +28,6 @@ const SignUpPage = () => (
       </div>
     </div>
   </div>
-)
+);
 
-export default SignUpPage
+export default SignUpPage;

@@ -7,8 +7,7 @@ const ProfilePage = () => (
             <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" />
             <h4>Eric Simons</h4>
             <p>
-              Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from
-              the Hunger Games
+              Cofounder @GoThinkster, lived in Aol's HQ for a few months, kinda looks like Peeta from the Hunger Games
             </p>
             <button className="btn btn-sm btn-outline-secondary action-btn">
               <i className="ion-plus-round"></i>
@@ -29,19 +28,27 @@ const ProfilePage = () => (
           <div className="articles-toggle">
             <ul className="nav nav-pills outline-active">
               <li className="nav-item">
-                <a className="nav-link active" href="">My Articles</a>
+                <a className="nav-link active" href="">
+                  My Articles
+                </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="">Favorited Articles</a>
+                <a className="nav-link" href="">
+                  Favorited Articles
+                </a>
               </li>
             </ul>
           </div>
 
           <div className="article-preview">
             <div className="article-meta">
-              <a href="/profile/eric-simons"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+              <a href="/profile/eric-simons">
+                <img src="http://i.imgur.com/Qr71crq.jpg" />
+              </a>
               <div className="info">
-                <a href="/profile/eric-simons" className="author">Eric Simons</a>
+                <a href="/profile/eric-simons" className="author">
+                  Eric Simons
+                </a>
                 <span className="date">January 20th</span>
               </div>
               <button className="btn btn-outline-primary btn-sm pull-xs-right">
@@ -61,9 +68,13 @@ const ProfilePage = () => (
 
           <div className="article-preview">
             <div className="article-meta">
-              <a href="/profile/albert-pai"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
+              <a href="/profile/albert-pai">
+                <img src="http://i.imgur.com/N4VcUeJ.jpg" />
+              </a>
               <div className="info">
-                <a href="/profile/albert-pai" className="author">Albert Pai</a>
+                <a href="/profile/albert-pai" className="author">
+                  Albert Pai
+                </a>
                 <span className="date">January 20th</span>
               </div>
               <button className="btn btn-outline-primary btn-sm pull-xs-right">
@@ -83,16 +94,20 @@ const ProfilePage = () => (
 
           <ul className="pagination">
             <li className="page-item active">
-              <a className="page-link" href="">1</a>
+              <a className="page-link" href="">
+                1
+              </a>
             </li>
             <li className="page-item">
-              <a className="page-link" href="">2</a>
+              <a className="page-link" href="">
+                2
+              </a>
             </li>
           </ul>
         </div>
       </div>
     </div>
   </div>
-)
+);
 
-export default ProfilePage
+export default ProfilePage;
