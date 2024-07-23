@@ -1,3 +1,3 @@
-const CreateArticlePage = () => <h1>create article page</h1>
+const CreateArticlePage = () => <h1>create article page</h1>;
 
-export default CreateArticlePage
+export default CreateArticlePage;

@@ -22,7 +22,8 @@ module.exports = {
   ignorePatterns: ["!**/.server", "!**/.client"],
 
   // Base config
-  extends: ["eslint:recommended"],
+  // prettier extension should be put at last (https://github.com/prettier/eslint-config-prettier?tab=readme-ov-file#installation)
+  extends: ["eslint:recommended", "prettier"],
 
   overrides: [
     // React
@@ -66,11 +67,7 @@ module.exports = {
           },
         },
       },
-      extends: [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-      ],
+      extends: ["plugin:@typescript-eslint/recommended", "plugin:import/recommended", "plugin:import/typescript"],
     },
 
     // Node

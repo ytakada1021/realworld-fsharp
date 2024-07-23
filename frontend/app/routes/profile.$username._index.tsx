@@ -1,3 +1,3 @@
-const ProfilePage = () => <h1>profile page</h1>
+const ProfilePage = () => <h1>profile page</h1>;
 
-export default ProfilePage
+export default ProfilePage;

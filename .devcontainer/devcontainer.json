@@ -27,6 +27,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"esbenp.prettier-vscode",
 				"ionide.ionide-fsharp",
 				"streetsidesoftware.code-spell-checker"
 			]

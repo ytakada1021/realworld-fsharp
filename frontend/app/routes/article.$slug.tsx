@@ -1,3 +1,3 @@
-const ArticlePage = () => <h1>article page</h1>
+const ArticlePage = () => <h1>article page</h1>;
 
-export default ArticlePage
+export default ArticlePage;

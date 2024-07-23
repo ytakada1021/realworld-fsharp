@@ -1,3 +1,3 @@
-const SettingsPage = () => <h1>settings page</h1>
+const SettingsPage = () => <h1>settings page</h1>;
 
-export default SettingsPage
+export default SettingsPage;
