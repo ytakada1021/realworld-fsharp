@@ -1,3 +1,38 @@
+import { createApiClient, isUnprocessableEntityError } from "@/api/apiClient";
+import { ErrorMessage } from "@/components/ErrorMessage";
+import { saveSessionData } from "@/features/auth/session";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { SignInForm } from "./form";
+
+const signInAction = async (formData: FormData) => {
+  "use server";
+
+  const client = createApiClient({
+    path: "/users/login",
+    httpMethod: "post",
+    params: {
+      body: {
+        user: {
+          email: formData.get("email")?.toString() ?? "email",
+          password: formData.get("password")?.toString() ?? "password",
+        },
+      },
+    },
+  });
+
+  try {
+    const { user } = await client.sendRequest();
+    saveSessionData({ authUser: user });
+    redirect("/");
+  } catch (err) {
+    if (isUnprocessableEntityError(err)) {
+      return err;
+    }
+    throw err;
+  }
+};
+
 const SignInPage = () => (
   <div className="auth-page">
     <div className="container page">
@@ -5,22 +40,9 @@ const SignInPage = () => (
         <div className="col-md-6 offset-md-3 col-xs-12">
           <h1 className="text-xs-center">Sign in</h1>
           <p className="text-xs-center">
-            <a href="/register">Need an account?</a>
+            <Link href="/register">Need an account?</Link>
           </p>
-
-          <ul className="error-messages">
-            <li>That email is already taken</li>
-          </ul>
-
-          <form>
-            <fieldset className="form-group">
-              <input className="form-control form-control-lg" type="text" placeholder="Email" />
-            </fieldset>
-            <fieldset className="form-group">
-              <input className="form-control form-control-lg" type="password" placeholder="Password" />
-            </fieldset>
-            <button className="btn btn-lg btn-primary pull-xs-right">Sign in</button>
-          </form>
+          <SignInForm />
         </div>
       </div>
     </div>
