@@ -1,3 +1,5 @@
+import { Footer } from "@/components/Footer";
+import { HeaderContainer } from "@/components/Header";
 import "@/styles/font.css";
 import "@/styles/main.css";
 import "ionicons/css/ionicons.min.css";
@@ -16,42 +18,9 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body>
-        <nav className="navbar navbar-light">
-          <div className="container">
-            <a className="navbar-brand" href="/">
-              conduit
-            </a>
-            <ul className="nav navbar-nav pull-xs-right">
-              <li className="nav-item">
-                <a className="nav-link active" href="/">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/login">
-                  Sign in
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/register">
-                  Sign up
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <HeaderContainer />
         {children}
-        <footer>
-          <div className="container">
-            <a href="/" className="logo-font">
-              conduit
-            </a>
-            <span className="attribution">
-              An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design
-              licensed under MIT.
-            </span>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
