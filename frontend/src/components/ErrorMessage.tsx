@@ -7,7 +7,7 @@ type ErrorMessageProps = {
 export const ErrorMessage: FC<ErrorMessageProps> = ({ errors }) => {
   return (
     errors.length > 0 && (
-      <ul className="error-messages">
+      <ul className="error-messages" aria-live="polite">
         {errors.map((error, index) => (
           <li key={index}>{error}</li>
         ))}
