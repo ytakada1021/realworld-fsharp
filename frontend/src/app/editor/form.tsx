@@ -80,11 +80,3 @@ export const ArticleForm: FC = () => {
     </>
   );
 };
-
-{
-  /* <ul className="tag-list">
-  <Tag as="li" variant="filled">
-    <i className="ion-close-round"></i>tag
-  </Tag>
-</ul>; */
-}
