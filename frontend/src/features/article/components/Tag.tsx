@@ -42,8 +42,22 @@ const TagAsAnchor: FC<TagPropsAsAnchor> = ({ children, variant = "filled", href 
 );
 
 //////////////////////////
+// span pattern
 
-export type TagProps = TagPropsAsListItem | TagPropsAsAnchor;
+type TagPropsAsSpan = CommonTagProps &
+  ComponentPropsWithoutRef<"span"> & {
+    as: "span";
+  };
+
+const TagAsSpan: FC<TagPropsAsSpan> = ({ children, variant = "filled", className, as, ...rest }) => (
+  <span className={clsx("tag-default tag-pill", variantClassNameMaps[variant])} {...rest}>
+    {children}
+  </span>
+);
+
+//////////////////////////
+
+export type TagProps = TagPropsAsListItem | TagPropsAsAnchor | TagPropsAsSpan;
 
 export const Tag: FC<TagProps> = (props) => {
   const componentType = props.as;
@@ -53,6 +67,8 @@ export const Tag: FC<TagProps> = (props) => {
       return <TagAsListItem {...props} />;
     case "a":
       return <TagAsAnchor {...props} />;
+    case "span":
+      return <TagAsSpan {...props} />;
     default:
       // compilation fails if all cases are not covered
       ((_: never) => {})(componentType);
