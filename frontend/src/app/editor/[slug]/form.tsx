@@ -1,16 +1,17 @@
 "use client";
 
 import { ErrorMessage } from "@/components/ErrorMessage";
-import { Article, initialErrorState } from "./types";
+import { initialErrorState } from "./types";
 import { Tag } from "@/features/article/components/Tag";
 import { useFormState } from "react-dom";
 import { updateArticleAction } from "./actions";
+import { Article } from "@/types";
 
 type Props = {
   article: Article;
 };
 
-export const EditArticleForm = async ({ article }: Props) => {
+export const EditArticleForm = ({ article }: Props) => {
   const [errorState, action] = useFormState(updateArticleAction, initialErrorState);
 
   return (

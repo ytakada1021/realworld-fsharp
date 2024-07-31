@@ -4,7 +4,8 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { FC } from "react";
 import { useFormState } from "react-dom";
 import { logoutAction, updateSettingsAction } from "./actions";
-import { initialFormState, User } from "./types";
+import { initialFormState } from "./types";
+import { User } from "@/types";
 
 type SettingsFormProps = {
   user: User;
