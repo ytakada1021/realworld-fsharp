@@ -1,17 +1,10 @@
+import { User } from "@/types";
 import { cookies } from "next/headers";
 
 const SESSION_KEY = "session";
 
-export type AuthUser = {
-  username: string;
-  email: string;
-  image: string;
-  bio: string;
-  token: string;
-};
-
 type SessionData = {
-  authUser: AuthUser;
+  authUser: User;
 };
 
 export const getSessionData = (): SessionData | undefined => {
