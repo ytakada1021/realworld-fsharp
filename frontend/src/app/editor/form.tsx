@@ -1,7 +1,7 @@
 "use client";
 
-import { ErrorMessage } from "@/components/ErrorMessage";
-import { Tag } from "@/features/article/components/Tag";
+import { ErrorMessage } from "@/components/errorMessage";
+import { Tag } from "@/features/article/components/tag";
 import { FC, KeyboardEventHandler, useState } from "react";
 import { createArticleAction } from "./actions";
 import { useFormState } from "react-dom";

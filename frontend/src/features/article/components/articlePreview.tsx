@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, FC, MouseEventHandler } from "react";
-import { FavoriteButtonPreview } from "./FavoriteButtonPreview";
-import { Tag } from "./Tag";
+import { FavoriteButtonPreview } from "./favoriteButtonPreview";
+import { Tag } from "./tag";
 import Link from "next/link";
 
 type Author = {

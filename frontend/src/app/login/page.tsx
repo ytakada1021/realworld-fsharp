@@ -1,5 +1,5 @@
 import { createApiClient, isUnprocessableEntityError } from "@/api/apiClient";
-import { ErrorMessage } from "@/components/ErrorMessage";
+import { ErrorMessage } from "@/components/errorMessage";
 import { saveSessionData } from "@/features/auth/session";
 import Link from "next/link";
 import { redirect } from "next/navigation";

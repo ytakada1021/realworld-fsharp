@@ -1,8 +1,8 @@
 "use client";
 
 import { bffApiBaseUrl } from "@/constants";
-import { CommentCard } from "@/features/article/components/CommentCard";
-import { CommentForm } from "@/features/article/components/CommentForm";
+import { CommentCard } from "@/features/article/components/commentCard";
+import { CommentForm } from "@/features/article/components/commentForm";
 import { Comment, commentSchema, User } from "@/types";
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, useState } from "react";

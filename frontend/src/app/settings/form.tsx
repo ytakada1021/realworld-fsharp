@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorMessage } from "@/components/ErrorMessage";
+import { ErrorMessage } from "@/components/errorMessage";
 import { FC } from "react";
 import { useFormState } from "react-dom";
 import { logoutAction, updateSettingsAction } from "./actions";

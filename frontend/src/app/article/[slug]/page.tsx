@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { fetchArticle, fetchComments } from "./fetch";
-import { Tag } from "@/features/article/components/Tag";
+import { Tag } from "@/features/article/components/tag";
 import { ArticleMetaContainer } from "./articleMeta";
 import { CommentArea } from "./commentArea";
 import { getSessionData } from "@/features/auth/session";

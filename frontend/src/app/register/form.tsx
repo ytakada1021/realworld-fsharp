@@ -3,7 +3,7 @@
 import { FC } from "react";
 import { useFormState } from "react-dom";
 import { signUpAction } from "./actions";
-import { ErrorMessage } from "@/components/ErrorMessage";
+import { ErrorMessage } from "@/components/errorMessage";
 import { initialFormState } from "./types";
 
 export const SignUpForm: FC = () => {

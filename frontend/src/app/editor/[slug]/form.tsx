@@ -1,8 +1,8 @@
 "use client";
 
-import { ErrorMessage } from "@/components/ErrorMessage";
+import { ErrorMessage } from "@/components/errorMessage";
 import { initialErrorState } from "./types";
-import { Tag } from "@/features/article/components/Tag";
+import { Tag } from "@/features/article/components/tag";
 import { useFormState } from "react-dom";
 import { updateArticleAction } from "./actions";
 import { Article } from "@/types";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/button";
 import { DefaultIcon } from "@/features/profile/defaultIcon";
 import clsx from "clsx";

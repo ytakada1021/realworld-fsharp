@@ -1,5 +1,5 @@
-import { Footer } from "@/components/Footer";
-import { HeaderContainer } from "@/components/Header";
+import { Footer } from "@/components/footer";
+import { HeaderContainer } from "@/components/header";
 import "@/styles/font.css";
 import "@/styles/main.css";
 import "ionicons/css/ionicons.min.css";
