@@ -1,18 +1,9 @@
+"use client";
+
+import { Comment } from "@/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, FC } from "react";
-
-type CommentAuthor = {
-  username: string;
-  image: string;
-};
-
-type Comment = {
-  id: string;
-  body: string;
-  createdAt: Date;
-  author: CommentAuthor;
-};
 
 type CommentCardProps = ComponentPropsWithoutRef<"div"> & {
   comment: Comment;
