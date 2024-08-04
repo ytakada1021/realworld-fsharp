@@ -1,3 +1,4 @@
+import { ExhaustiveError } from "@/shared/errors";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, FC } from "react";
@@ -60,9 +61,7 @@ const TagAsSpan: FC<TagPropsAsSpan> = ({ children, variant = "filled", className
 export type TagProps = TagPropsAsListItem | TagPropsAsAnchor | TagPropsAsSpan;
 
 export const Tag: FC<TagProps> = (props) => {
-  const componentType = props.as;
-
-  switch (componentType) {
+  switch (props.as) {
     case "li":
       return <TagAsListItem {...props} />;
     case "a":
@@ -71,6 +70,6 @@ export const Tag: FC<TagProps> = (props) => {
       return <TagAsSpan {...props} />;
     default:
       // compilation fails if all cases are not covered
-      ((_: never) => {})(componentType);
+      throw new ExhaustiveError(props);
   }
 };

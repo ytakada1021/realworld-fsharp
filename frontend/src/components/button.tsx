@@ -45,13 +45,13 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> &
     component: "button";
   };
 
-const ButtonAsButtonTag: FC<ButtonProps> = ({
+const ButtonAsButtonTag = ({
   className,
   children,
   size = DEFAULT_SIZE,
   color = DEFAULT_COLOR,
   ...rest
-}) => {
+}: ButtonProps) => {
   return (
     <button className={clsx("btn", sizeToClassNameMaps[size], colorToClassNameMaps[color], className)} {...rest}>
       {children}
@@ -67,14 +67,14 @@ type AnchorProps = ComponentPropsWithoutRef<"a"> &
     component: "a";
   };
 
-const ButtonAsAnchorTag: FC<AnchorProps> = ({
+const ButtonAsAnchorTag = ({
   href = "",
   className,
   children,
   size = DEFAULT_SIZE,
   color = DEFAULT_COLOR,
   ...rest
-}) => {
+}: AnchorProps) => {
   return (
     <Link
       href={href}
@@ -90,7 +90,7 @@ const ButtonAsAnchorTag: FC<AnchorProps> = ({
 
 type Props = ButtonProps | AnchorProps;
 
-export const Button: FC<Props> = (props) => {
+export const Button = (props: Props) => {
   const componentType = props.component;
 
   switch (componentType) {

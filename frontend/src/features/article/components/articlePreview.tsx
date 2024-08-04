@@ -1,38 +1,32 @@
+"use client";
+
 import clsx from "clsx";
-import { ComponentPropsWithoutRef, FC, MouseEventHandler } from "react";
-import { FavoriteButtonPreview } from "./favoriteButtonPreview";
+import { ComponentPropsWithoutRef, FC, useState } from "react";
 import { Tag } from "./tag";
 import Link from "next/link";
+import { DefaultIcon } from "@/features/profile/defaultIcon";
+import { Button } from "@/components/button";
+import { favoriteArticleAction } from "@/app/actions";
+import { Article } from "@/types";
 
-type Author = {
-  username: string;
-  image: string;
-};
-
-export type Article = {
-  slug: string;
-  title: string;
-  description: string;
-  tagList: string[];
-  favorited: boolean;
-  favoritesCount: number;
-  createdAt: Date;
-  author: Author;
-};
-
-type ArticlePreviewProps = ComponentPropsWithoutRef<"div"> & {
+type Props = ComponentPropsWithoutRef<"div"> & {
   article: Article;
-  onClickFavoriteButton?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export const ArticlePreview: FC<ArticlePreviewProps> = ({ article, onClickFavoriteButton, className, ...rest }) => {
-  const author = article.author;
+export const ArticlePreview = ({ article, className, ...rest }: Props) => {
+  const [articleState, setArticleState] = useState(article);
+  const author = articleState.author;
+
+  const onClickFavoriteButton = async () => {
+    const response = await favoriteArticleAction(article.slug);
+    setArticleState(response);
+  };
 
   return (
     <div className={clsx("article-preview", className)} {...rest}>
       <div className="article-meta">
         <Link href={`/profile/${author.username}`}>
-          <img src={author.image || "https://picsum.photos/200"} />
+          {author.image ? <img src={author.image} alt="" /> : <DefaultIcon />}
         </Link>
         <div className="info">
           <Link href={`/profile/${author.username}`} className="author">
@@ -40,11 +34,9 @@ export const ArticlePreview: FC<ArticlePreviewProps> = ({ article, onClickFavori
           </Link>
           <span className="date">{article.createdAt.toDateString()}</span>
         </div>
-        <FavoriteButtonPreview
-          isFavorited={article.favorited}
-          onClick={onClickFavoriteButton}
-          favoritesCount={article.favoritesCount}
-        />
+        <Button component="button" onClick={onClickFavoriteButton} className="pull-xs-right">
+          <i className="ion-heart"></i> {article.favoritesCount}
+        </Button>
       </div>
       <Link href={`/article/${article.slug}`} className="preview-link">
         <h1>{article.title}</h1>
