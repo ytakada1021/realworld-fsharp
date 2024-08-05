@@ -1,10 +1,10 @@
 "use server";
 
 import { createApiClient, isForbiddenError, isUnauthorizedError, isUnprocessableEntityError } from "@/api/apiClient";
-import { ErrorState } from "./types";
 import { redirect } from "next/navigation";
+import { FormState } from "./types";
 
-export const updateArticleAction = async (_prevState: ErrorState, formData: FormData): Promise<ErrorState> => {
+export const updateArticleAction = async (_prevState: FormState, formData: FormData): Promise<FormState> => {
   const client = createApiClient({
     path: "/articles/{slug}",
     httpMethod: "put",

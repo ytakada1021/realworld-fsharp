@@ -1,10 +1,10 @@
 "use server";
 
 import { createApiClient, isForbiddenError, isUnauthorizedError, isUnprocessableEntityError } from "@/api/apiClient";
-import { ErrorState } from "./types";
+import { FormState } from "./types";
 import { redirect } from "next/navigation";
 
-export const createArticleAction = async (_prevState: ErrorState, formData: FormData): Promise<ErrorState> => {
+export const createArticleAction = async (_prevState: FormState, formData: FormData): Promise<FormState> => {
   const client = createApiClient({
     path: "/articles",
     httpMethod: "post",
@@ -22,7 +22,7 @@ export const createArticleAction = async (_prevState: ErrorState, formData: Form
 
   try {
     const response = await client.sendRequest();
-    return redirect(`/article/${response.article.slug}`);
+    redirect(`/article/${response.article.slug}`);
   } catch (err) {
     if (isUnprocessableEntityError(err)) {
       return {

@@ -34,7 +34,12 @@ export const ArticlePreview = ({ article, className, ...rest }: Props) => {
           </Link>
           <span className="date">{article.createdAt.toDateString()}</span>
         </div>
-        <Button component="button" onClick={onClickFavoriteButton} className="pull-xs-right">
+        <Button
+          component="button"
+          onClick={onClickFavoriteButton}
+          className="pull-xs-right"
+          variant={article.favorited ? "filled" : "outline"}
+        >
           <i className="ion-heart"></i> {article.favoritesCount}
         </Button>
       </div>

@@ -1,11 +1,9 @@
-"use server";
-
 import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/api/apiClient";
+import { ExhaustiveError } from "@/shared/errors";
 import { articleSchema } from "@/types";
 import { redirect } from "next/navigation";
-import { SearchParams } from "./types";
-import { ExhaustiveError } from "@/shared/errors";
 import { calcOffsetLimitFromPageNumber } from "./functions";
+import { SearchParams } from "./types";
 
 const fetchGlobalArticles = async (page: number) => {
   const { offset, limit } = calcOffsetLimitFromPageNumber(page, 10);

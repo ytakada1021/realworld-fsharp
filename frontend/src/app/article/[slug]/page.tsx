@@ -1,9 +1,8 @@
-import { FC } from "react";
-import { fetchArticle, fetchComments } from "./fetch";
 import { Tag } from "@/features/article/components/tag";
-import { ArticleMetaContainer } from "./articleMeta";
-import { CommentArea } from "./commentArea";
 import { getSessionData } from "@/features/auth/session";
+import { ArticleMeta } from "./articleMeta";
+import { CommentArea } from "./commentArea";
+import { fetchArticle, fetchComments } from "./fetch";
 
 type Props = {
   params: {
@@ -11,7 +10,7 @@ type Props = {
   };
 };
 
-const ArticlePage: FC<Props> = async ({ params }) => {
+const ArticlePage = async ({ params }: Props) => {
   const article = await fetchArticle(params.slug);
   const author = article.author;
   const comments = await fetchComments(params.slug);
@@ -22,7 +21,7 @@ const ArticlePage: FC<Props> = async ({ params }) => {
       <div className="banner">
         <div className="container">
           <h1>{article.title}</h1>
-          <ArticleMetaContainer author={author} article={article} />
+          <ArticleMeta author={author} article={article} />
         </div>
       </div>
 
@@ -43,7 +42,7 @@ const ArticlePage: FC<Props> = async ({ params }) => {
         <hr />
 
         <div className="article-actions">
-          <ArticleMetaContainer author={author} article={article} />
+          <ArticleMeta author={author} article={article} />
         </div>
 
         <CommentArea slug={params.slug} initialComments={comments} authUser={session?.authUser} />

@@ -1,15 +1,7 @@
-export type ErrorState = {
+export type FormState = {
   errors: string[];
 };
 
-export const initialErrorState: ErrorState = {
+export const initialFormState: FormState = {
   errors: [],
-};
-
-export type TagListState = {
-  tags: string[];
-};
-
-export const initialTagListState: TagListState = {
-  tags: [],
 };

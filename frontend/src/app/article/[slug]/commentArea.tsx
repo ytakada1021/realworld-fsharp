@@ -1,11 +1,11 @@
 "use client";
 
-import { bffApiBaseUrl } from "@/constants";
 import { CommentCard } from "@/features/article/components/commentCard";
 import { CommentForm } from "@/features/article/components/commentForm";
-import { Comment, commentSchema, User } from "@/types";
+import { Comment, User } from "@/types";
 import clsx from "clsx";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { ChangeEventHandler, ComponentPropsWithoutRef, useState } from "react";
+import { postCommentAction } from "./actions";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   slug: string;
@@ -15,25 +15,26 @@ type Props = ComponentPropsWithoutRef<"div"> & {
 
 export const CommentArea = ({ slug, initialComments, authUser, className, ...rest }: Props) => {
   const [comments, setComments] = useState(initialComments);
+  const [bodyState, setBodyState] = useState("");
+
+  const onChangeBody: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    setBodyState(event.target.value);
+  };
 
   const onClickPostComment = async () => {
-    const response = await fetch(`${bffApiBaseUrl}/articles/${slug}/comments`, {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ body: "sampleBody" }),
-    });
-
-    const comment = commentSchema.parse(await response.json());
-    setComments((prev) => [comment, ...prev]);
+    const postedComment = await postCommentAction({ slug, body: bodyState });
+    setComments((prev) => [postedComment, ...prev]);
   };
 
   return (
     <div className={clsx("row", className)} {...rest}>
       <div className="col-xs-12 col-md-8 offset-md-2">
-        <CommentForm author={authUser} onClickPostComment={onClickPostComment} />
+        <CommentForm
+          authorImage={authUser?.image}
+          body={bodyState}
+          onClickPostComment={onClickPostComment}
+          onChangeBody={onChangeBody}
+        />
         {comments.map((comment, index) => (
           <CommentCard key={index} comment={comment} />
         ))}

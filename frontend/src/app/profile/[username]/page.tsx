@@ -33,9 +33,9 @@ const ProfilePage = async (props: Props) => {
           </li>
         </ul>
       </div>
-      {articles.map((article, index) => {
-        return <ArticlePreview article={article} key={index} />;
-      })}
+      {articles.map((article, index) => (
+        <ArticlePreview article={article} key={index} />
+      ))}
       <Pagination>
         {[...Array(totalPages)].map((_, index) => {
           const page = index + 1;

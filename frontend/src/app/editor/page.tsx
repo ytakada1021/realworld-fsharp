@@ -1,4 +1,4 @@
-import { ArticleForm } from "./form";
+import { ArticleForm } from "./articleForm";
 
 const CreateArticlePage = () => (
   <div className="editor-page">

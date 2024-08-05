@@ -1,6 +1,5 @@
-import { FC } from "react";
+import { EditArticleForm } from "./editArticleForm";
 import { fetchArticle } from "./fetch";
-import { EditArticleForm } from "./form";
 
 type Props = {
   params: {
@@ -8,8 +7,8 @@ type Props = {
   };
 };
 
-const EditArticlePage: FC<Props> = async ({ params }) => {
-  const { article } = await fetchArticle(params.slug);
+const EditArticlePage = async ({ params }: Props) => {
+  const article = await fetchArticle(params.slug);
 
   return (
     <div className="editor-page">

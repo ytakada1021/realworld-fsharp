@@ -25,10 +25,9 @@ export const signUpAction = async (_prevState: FormState, formData: FormData) =>
     saveSessionData({ authUser: response.user });
   } catch (err) {
     if (isUnprocessableEntityError(err)) {
-      const formState: FormState = {
+      return {
         errors: err.errors.body,
       };
-      return formState;
     }
     throw err;
   }

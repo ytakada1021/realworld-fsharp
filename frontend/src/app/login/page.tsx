@@ -1,37 +1,5 @@
-import { createApiClient, isUnprocessableEntityError } from "@/api/apiClient";
-import { ErrorMessage } from "@/components/errorMessage";
-import { saveSessionData } from "@/features/auth/session";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { SignInForm } from "./form";
-
-const signInAction = async (formData: FormData) => {
-  "use server";
-
-  const client = createApiClient({
-    path: "/users/login",
-    httpMethod: "post",
-    params: {
-      body: {
-        user: {
-          email: formData.get("email")?.toString() ?? "email",
-          password: formData.get("password")?.toString() ?? "password",
-        },
-      },
-    },
-  });
-
-  try {
-    const { user } = await client.sendRequest();
-    saveSessionData({ authUser: user });
-    redirect("/");
-  } catch (err) {
-    if (isUnprocessableEntityError(err)) {
-      return err;
-    }
-    throw err;
-  }
-};
+import { SignInForm } from "./signInForm";
 
 const SignInPage = () => (
   <div className="auth-page">

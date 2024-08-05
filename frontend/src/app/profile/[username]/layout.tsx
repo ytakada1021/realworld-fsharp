@@ -1,9 +1,8 @@
+import { FollowButton } from "@/app/profile/[username]/followButton";
 import { Button } from "@/components/button";
-import Link from "next/link";
+import { DefaultIcon } from "@/features/profile/defaultIcon";
 import { ReactNode } from "react";
 import { fetchProfile } from "./fetch";
-import { DefaultIcon } from "@/features/profile/defaultIcon";
-import { FollowButton } from "@/app/profile/[username]/followButton";
 
 type Props = {
   children: ReactNode;
@@ -22,7 +21,7 @@ const ProfilePageLayout = async ({ children, params }: Props) => {
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
               {profile.image ? (
-                <img src="http://i.imgur.com/Qr71crq.jpg" className="user-img" alt="" />
+                <img src={profile.image} className="user-img" alt="" />
               ) : (
                 <DefaultIcon className="user-img" />
               )}

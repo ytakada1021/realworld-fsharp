@@ -1,22 +1,22 @@
 "use client";
 
 import { ErrorMessage } from "@/components/errorMessage";
-import { initialErrorState } from "./types";
 import { Tag } from "@/features/article/components/tag";
+import { Article } from "@/types";
 import { useFormState } from "react-dom";
 import { updateArticleAction } from "./actions";
-import { Article } from "@/types";
+import { initialFormState } from "./types";
 
 type Props = {
   article: Article;
 };
 
 export const EditArticleForm = ({ article }: Props) => {
-  const [errorState, action] = useFormState(updateArticleAction, initialErrorState);
+  const [formState, action] = useFormState(updateArticleAction, initialFormState);
 
   return (
     <>
-      <ErrorMessage errors={errorState.errors} />
+      <ErrorMessage errors={formState.errors} />
       <form action={action}>
         <input type="hidden" name="slug" value={article.slug} />
         <fieldset>
@@ -48,7 +48,6 @@ export const EditArticleForm = ({ article }: Props) => {
             ></textarea>
           </fieldset>
           <fieldset className="form-group">
-            {/* <input type="text" className="form-control" placeholder="Enter tags" /> */}
             <ul className="tag-list">
               {article.tagList.map((tag, index) => (
                 <Tag as="li" key={index}>

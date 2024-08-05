@@ -2,19 +2,20 @@
 
 import { ErrorMessage } from "@/components/errorMessage";
 import { Tag } from "@/features/article/components/tag";
-import { FC, KeyboardEventHandler, useState } from "react";
-import { createArticleAction } from "./actions";
+import { KeyboardEventHandler, useState } from "react";
 import { useFormState } from "react-dom";
-import { initialErrorState } from "./types";
+import { createArticleAction } from "./actions";
+import { initialFormState } from "./types";
 
-export const ArticleForm: FC = () => {
+export const ArticleForm = () => {
   const [tagList, setTagList] = useState<string[]>([]);
   const [tag, setTag] = useState("");
-  const [errorState, action] = useFormState(createArticleAction, initialErrorState);
+  const [formState, formAction] = useFormState(createArticleAction, initialFormState);
 
   const onTagFormKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     switch (event.key) {
       case "Enter":
+        // prevent form submit
         event.preventDefault();
 
         if (tag === "") {
@@ -38,9 +39,8 @@ export const ArticleForm: FC = () => {
 
   return (
     <>
-      <ErrorMessage errors={errorState.errors} />
-
-      <form action={action}>
+      <ErrorMessage errors={formState.errors} />
+      <form action={formAction}>
         <fieldset>
           <fieldset className="form-group">
             <input type="text" className="form-control form-control-lg" placeholder="Article Title" name="title" />
@@ -58,7 +58,7 @@ export const ArticleForm: FC = () => {
               placeholder="Enter tags"
               onKeyDown={onTagFormKeyDown}
               value={tag}
-              onChange={(e) => setTag(e.target.value)}
+              onChange={(event) => setTag(event.target.value)}
             />
             <ul className="tag-list">
               {tagList.map((tag, index) => (

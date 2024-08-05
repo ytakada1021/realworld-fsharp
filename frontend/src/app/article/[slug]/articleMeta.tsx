@@ -1,101 +1,76 @@
 "use client";
 
+import { Button } from "@/components/button";
+import { DefaultIcon } from "@/features/profile/defaultIcon";
+import { Article, Profile } from "@/types";
 import clsx from "clsx";
 import Link from "next/link";
-import { ComponentPropsWithoutRef, FC, MouseEventHandler, useState } from "react";
-import { deleteArticleAction } from "./actions";
-import { Button } from "@/components/button";
-import { bffApiBaseUrl } from "@/constants";
-import { Article, Profile } from "@/types";
+import { ComponentPropsWithoutRef, useState } from "react";
+import {
+  deleteArticleAction,
+  favoriteArticleAction,
+  followAction,
+  unfavoriteArticleAction,
+  unfollowAction,
+} from "./actions";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   author: Profile;
   article: Article;
-  onClickFavorite?: MouseEventHandler<HTMLButtonElement>;
-  onClickFollow?: MouseEventHandler<HTMLButtonElement>;
 };
 
-const ArticleMeta: FC<Props> = ({ author, article, onClickFavorite, onClickFollow, className, ...rest }) => {
-  return (
-    <div className={clsx("article-meta", className)} {...rest}>
-      <Link href={`/profile/${author.username}`}>
-        <img src={author.image} />
-      </Link>
-      <div className="info">
-        <Link href={`/profile/${author.username}`} className="author">
-          {author.username}
-        </Link>
-        <span className="date">January 20th</span>
-      </div>
-      <Button component="button" onClick={onClickFollow}>
-        <i className="ion-plus-round"></i> {author.following ? "Unfollow" : "Follow"} {author.username}
-      </Button>
-      <Button component="button" onClick={onClickFavorite}>
-        <i className="ion-heart"></i> {article.favorited ? "Unfavorite" : "Favorite"} Article{" "}
-        <span className="counter">({article.favoritesCount})</span>
-      </Button>
-      <Button component="a" href={`/editor/${article.slug}`} color="secondary">
-        <i className="ion-edit"></i> Edit Article
-      </Button>
-      <form action={deleteArticleAction}>
-        <input type="hidden" name="slug" value={article.slug} />
-        <Button component="button" color="danger" type="submit">
-          <i className="ion-trash-a"></i> Delete Article
-        </Button>
-      </form>
-    </div>
-  );
-};
-
-type ContainerProps = Props;
-
-export const ArticleMetaContainer: FC<ContainerProps> = ({ author, article, ...rest }) => {
+export const ArticleMeta = ({ author, article, className, ...rest }: Props) => {
   const [articleState, setArticleState] = useState(article);
   const [authorState, setAuthorState] = useState(author);
 
   const onClickFavorite = async () => {
-    if (article.favorited) {
-      const response = await fetch(`${bffApiBaseUrl}/articles/${article.slug}/favorite`, {
-        method: "delete",
-      });
-
-      const body = await response.json();
-      setArticleState({ ...body });
+    if (articleState.favorited) {
+      const newArticle = await unfavoriteArticleAction(articleState.slug);
+      setArticleState(newArticle);
     } else {
-      const response = await fetch(`${bffApiBaseUrl}/articles/${article.slug}/favorite`, {
-        method: "post",
-      });
-
-      const body = await response.json();
-      setArticleState({ ...body });
+      const newArticle = await favoriteArticleAction(articleState.slug);
+      setArticleState(newArticle);
     }
   };
 
   const onClickFollow = async () => {
-    if (author.following) {
-      const response = await fetch(`${bffApiBaseUrl}/profiles/${author.username}/follow`, {
-        method: "delete",
-      });
-
-      const body = await response.json();
-      setAuthorState({ ...body });
+    if (authorState.following) {
+      const newAuthor = await unfollowAction(authorState.username);
+      setAuthorState(newAuthor);
     } else {
-      const response = await fetch(`${bffApiBaseUrl}/profiles/${author.username}/follow`, {
-        method: "post",
-      });
-
-      const body = await response.json();
-      setAuthorState({ ...body });
+      const newAuthor = await followAction(authorState.username);
+      setAuthorState(newAuthor);
     }
   };
 
+  const onClickDeleteArticle = () => {
+    deleteArticleAction(articleState.slug);
+  };
+
   return (
-    <ArticleMeta
-      article={articleState}
-      author={authorState}
-      onClickFavorite={onClickFavorite}
-      onClickFollow={onClickFollow}
-      {...rest}
-    />
+    <div className={clsx("article-meta", className)} {...rest}>
+      <Link href={`/profile/${authorState.username}`}>
+        {authorState.image ? <img src={authorState.image} alt="" /> : <DefaultIcon />}
+      </Link>
+      <div className="info">
+        <Link href={`/profile/${authorState.username}`} className="author">
+          {authorState.username}
+        </Link>
+        <span className="date">{articleState.createdAt.toDateString()}</span>
+      </div>
+      <Button component="button" onClick={onClickFollow} variant={authorState.following ? "filled" : "outline"}>
+        <i className="ion-plus-round"></i> {authorState.following ? "Unfollow" : "Follow"} {authorState.username}
+      </Button>
+      <Button component="button" onClick={onClickFavorite} variant={articleState.favorited ? "filled" : "outline"}>
+        <i className="ion-heart"></i> {articleState.favorited ? "Unfavorite" : "Favorite"} Article{" "}
+        <span className="counter">({articleState.favoritesCount})</span>
+      </Button>
+      <Button component="a" href={`/editor/${articleState.slug}`} color="secondary">
+        <i className="ion-edit"></i> Edit Article
+      </Button>
+      <Button component="button" color="danger" onClick={onClickDeleteArticle}>
+        <i className="ion-trash-a"></i> Delete Article
+      </Button>
+    </div>
   );
 };

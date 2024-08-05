@@ -1,4 +1,4 @@
-import { SettingsForm } from "./form";
+import { SettingsForm } from "./settingsForm";
 import { fetchSettings } from "./fetch";
 
 const SettingsPage = async () => {

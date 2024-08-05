@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { searchParamsSchema } from "./types";
-import { fetchArticlesByUserFavorites } from "./fetch";
 import { calcTotalPageNumber } from "@/app/functions";
 import { Pagination, PaginationItem } from "@/components/pagination";
 import { ArticlePreview } from "@/features/article/components/articlePreview";
+import Link from "next/link";
+import { fetchArticlesByUserFavorites } from "./fetch";
+import { searchParamsSchema } from "./types";
 
 type Props = {
   params: {
@@ -33,9 +33,9 @@ const FavoritesPage = async (props: Props) => {
           </li>
         </ul>
       </div>
-      {articles.map((article, index) => {
-        return <ArticlePreview article={article} key={index} />;
-      })}
+      {articles.map((article, index) => (
+        <ArticlePreview article={article} key={index} />
+      ))}
       <Pagination>
         {[...Array(totalPages)].map((_, index) => {
           const page = index + 1;

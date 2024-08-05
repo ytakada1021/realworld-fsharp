@@ -1,23 +1,22 @@
 "use client";
 
+import { Button } from "@/components/button";
 import { ErrorMessage } from "@/components/errorMessage";
-import { FC } from "react";
+import { User } from "@/types";
 import { useFormState } from "react-dom";
 import { logoutAction, updateSettingsAction } from "./actions";
 import { initialFormState } from "./types";
-import { User } from "@/types";
 
-type SettingsFormProps = {
+type Props = {
   user: User;
 };
 
-export const SettingsForm: FC<SettingsFormProps> = ({ user }) => {
+export const SettingsForm = ({ user }: Props) => {
   const [formState, formAction] = useFormState(updateSettingsAction, initialFormState);
 
   return (
     <>
       <ErrorMessage errors={formState.errors} />
-
       <form action={formAction}>
         <fieldset>
           <fieldset className="form-group">
@@ -70,9 +69,9 @@ export const SettingsForm: FC<SettingsFormProps> = ({ user }) => {
       </form>
       <hr />
       <form action={logoutAction}>
-        <button className="btn btn-outline-danger" type="submit">
+        <Button component="button" color="danger" type="submit" size="lg">
           Or click here to logout.
-        </button>
+        </Button>
       </form>
     </>
   );

@@ -1,8 +1,7 @@
-import { FC } from "react";
-import { SignUpForm } from "./form";
 import Link from "next/link";
+import { SignUpForm } from "./form";
 
-const SignUpPage: FC = () => (
+const SignUpPage = () => (
   <div className="auth-page">
     <div className="container page">
       <div className="row">

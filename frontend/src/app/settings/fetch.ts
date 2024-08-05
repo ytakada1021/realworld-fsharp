@@ -10,7 +10,7 @@ export const fetchSettings = async () => {
   });
 
   try {
-    return await client.sendRequest();
+    return client.sendRequest();
   } catch (err) {
     if (isUnauthorizedError(err) || isForbiddenError(err)) {
       redirect("/login");

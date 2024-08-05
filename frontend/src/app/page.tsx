@@ -1,11 +1,11 @@
 import { Pagination, PaginationItem } from "@/components/pagination";
 import { ArticlePreview } from "@/features/article/components/articlePreview";
 import { Tag } from "@/features/article/components/tag";
-import { fetchTags, fetchArticles } from "./fetch";
-import { searchParamsSchema } from "./types";
-import Link from "next/link";
 import clsx from "clsx";
+import Link from "next/link";
+import { fetchArticles, fetchTags } from "./fetch";
 import { calcTotalPageNumber, generateUrl } from "./functions";
+import { searchParamsSchema } from "./types";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
