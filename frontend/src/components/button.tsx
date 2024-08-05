@@ -46,6 +46,7 @@ type ButtonProps = ComponentPropsWithoutRef<"button"> &
   };
 
 const ButtonAsButtonTag = ({
+  component,
   className,
   children,
   size = DEFAULT_SIZE,
@@ -64,11 +65,12 @@ const ButtonAsButtonTag = ({
 
 type AnchorProps = ComponentPropsWithoutRef<"a"> &
   CommonProps & {
+    href: string;
     component: "a";
   };
 
 const ButtonAsAnchorTag = ({
-  href = "",
+  component,
   className,
   children,
   size = DEFAULT_SIZE,
@@ -76,11 +78,7 @@ const ButtonAsAnchorTag = ({
   ...rest
 }: AnchorProps) => {
   return (
-    <Link
-      href={href}
-      className={clsx("btn", sizeToClassNameMaps[size], colorToClassNameMaps[color], className)}
-      {...rest}
-    >
+    <Link className={clsx("btn", sizeToClassNameMaps[size], colorToClassNameMaps[color], className)} {...rest}>
       {children}
     </Link>
   );
