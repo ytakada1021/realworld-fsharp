@@ -1,76 +1,65 @@
-import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef } from "react";
+import { DefaultIcon } from "../icons/defaultIcon";
+import { HeaderNavItem } from "./headerNavItem";
+import { User } from "@/shared/types";
 
-type Profile = {
-  username: string;
-  image: string;
+type HeaderProps = ComponentPropsWithoutRef<"header"> & {
+  authUser?: User;
 };
 
-type AuthenticatedHeaderProps = {
-  isAuthenticated: true;
-  activeMenu: "home" | "newArticle" | "settings" | "profile";
-  profile: Profile;
+const UnauthenticatedMenus = () => {
+  return (
+    <ul className="nav navbar-nav pull-xs-right">
+      <li className="nav-item">
+        <HeaderNavItem href="/" segment={null}>
+          Home
+        </HeaderNavItem>
+      </li>
+      <li className="nav-item">
+        <HeaderNavItem href="/login" segment="login">
+          Sign in
+        </HeaderNavItem>
+      </li>
+      <li className="nav-item">
+        <HeaderNavItem href="/register" segment="register">
+          Sign up
+        </HeaderNavItem>
+      </li>
+    </ul>
+  );
 };
 
-type UnauthenticatedHeaderProps = {
-  isAuthenticated: false;
-  activeMenu: "home" | "signIn" | "signUp";
+const AuthenticatedMenus = ({ authUser }: { authUser: User }) => {
+  return (
+    <ul className="nav navbar-nav pull-xs-right">
+      <li className="nav-item">
+        <HeaderNavItem href="/" segment={null}>
+          Home
+        </HeaderNavItem>
+      </li>
+      <li className="nav-item">
+        <HeaderNavItem href="/editor" segment="editor">
+          <i className="ion-compose"></i>&nbsp;New Article
+        </HeaderNavItem>
+      </li>
+      <li className="nav-item">
+        <HeaderNavItem href="/settings" segment="settings">
+          <i className="ion-compose"></i>&nbsp;Settings
+        </HeaderNavItem>
+      </li>
+      <li className="nav-item">
+        <HeaderNavItem href={`/profile/${authUser.username}`} segment="profile">
+          {authUser.image ? <img src={authUser.image} className="user-pic" /> : <DefaultIcon className="user-pic" />}
+          {authUser.username}
+        </HeaderNavItem>
+      </li>
+    </ul>
+  );
 };
-
-type HeaderProps = ComponentPropsWithoutRef<"header"> & (AuthenticatedHeaderProps | UnauthenticatedHeaderProps);
-
-const createActiveClassName = (activeMenu: string, menu: string) => (activeMenu === menu ? "active" : undefined);
 
 export const Header = (props: HeaderProps) => {
-  const menus = props.isAuthenticated ? (
-    <>
-      <li className="nav-item">
-        <Link className={clsx("nav-link", createActiveClassName("home", props.activeMenu))} href="/">
-          Home
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className={clsx("nav-link", createActiveClassName("newArticle", props.activeMenu))} href="/editor">
-          <i className="ion-compose"></i>&nbsp;New Article
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link className={clsx("nav-link", createActiveClassName("settings", props.activeMenu))} href="/settings">
-          <i className="ion-gear-a"></i>&nbsp;Settings
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          className={clsx("nav-link", createActiveClassName("profile", props.activeMenu))}
-          href={`/profile/${props.profile.username}`}
-        >
-          <img src={props.profile.image || "https://picsum.photos/200"} className="user-pic" />
-          {props.profile.username}
-        </Link>
-      </li>
-    </>
-  ) : (
-    <>
-      <li className={clsx("nav-item", createActiveClassName("home", props.activeMenu))}>
-        <Link className="nav-link" href="/">
-          Home
-        </Link>
-      </li>
-      <li className={clsx("nav-item", createActiveClassName("signIn", props.activeMenu))}>
-        <Link className="nav-link" href="/login">
-          Sign in
-        </Link>
-      </li>
-      <li className={clsx("nav-item", createActiveClassName("signUp", props.activeMenu))}>
-        <Link className="nav-link" href="/register">
-          Sign up
-        </Link>
-      </li>
-    </>
-  );
-
-  const { isAuthenticated, activeMenu, ...rest } = props;
+  const { authUser, ...rest } = props;
 
   return (
     <header {...rest}>
@@ -79,7 +68,7 @@ export const Header = (props: HeaderProps) => {
           <Link className="navbar-brand" href="/">
             conduit
           </Link>
-          <ul className="nav navbar-nav pull-xs-right">{menus}</ul>
+          {authUser ? <AuthenticatedMenus authUser={authUser} /> : <UnauthenticatedMenus />}
         </div>
       </nav>
     </header>

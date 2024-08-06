@@ -11,18 +11,16 @@ type Story = StoryObj<typeof Header>;
 
 export const Authenticated: Story = {
   args: {
-    isAuthenticated: true,
-    activeMenu: "home",
-    profile: {
+    authUser: {
       username: "Foo Bar",
       image: "https://picsum.photos/200",
+      email: "sample@example.com",
+      bio: "Sample bio",
+      token: "##########",
     },
   },
 };
 
 export const Unauthenticated: Story = {
-  args: {
-    isAuthenticated: false,
-    activeMenu: "home",
-  },
+  args: {},
 };

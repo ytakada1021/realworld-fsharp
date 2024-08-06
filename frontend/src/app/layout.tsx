@@ -22,11 +22,7 @@ const RootLayout = ({
   return (
     <html lang="en">
       <body>
-        {session?.authUser ? (
-          <Header isAuthenticated={true} activeMenu="home" profile={session.authUser} />
-        ) : (
-          <Header isAuthenticated={false} activeMenu="home" />
-        )}
+        <Header authUser={session?.authUser} />
         {children}
         <Footer />
       </body>
