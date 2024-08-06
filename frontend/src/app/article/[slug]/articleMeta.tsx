@@ -2,7 +2,7 @@
 
 import { Button } from "@/modules/common/components/button";
 import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
-import { Article, Profile } from "@/shared/types";
+import { Article, Profile, User } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, useState } from "react";
@@ -13,13 +13,15 @@ import {
   unfavoriteArticleAction,
   unfollowAction,
 } from "./actions";
+import { showDeleteArticleButton, showEditArticleButton } from "./authorization";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   author: Profile;
   article: Article;
+  authUser?: User;
 };
 
-export const ArticleMeta = ({ author, article, className, ...rest }: Props) => {
+export const ArticleMeta = ({ author, article, authUser, className, ...rest }: Props) => {
   const [articleState, setArticleState] = useState(article);
   const [authorState, setAuthorState] = useState(author);
 
@@ -65,12 +67,16 @@ export const ArticleMeta = ({ author, article, className, ...rest }: Props) => {
         <i className="ion-heart"></i> {articleState.favorited ? "Unfavorite" : "Favorite"} Article{" "}
         <span className="counter">({articleState.favoritesCount})</span>
       </Button>
-      <Button component="a" href={`/editor/${articleState.slug}`} color="secondary">
-        <i className="ion-edit"></i> Edit Article
-      </Button>
-      <Button component="button" color="danger" onClick={onClickDeleteArticle}>
-        <i className="ion-trash-a"></i> Delete Article
-      </Button>
+      {showEditArticleButton(article.author.username, authUser) && (
+        <Button component="a" href={`/editor/${articleState.slug}`} color="secondary">
+          <i className="ion-edit"></i> Edit Article
+        </Button>
+      )}
+      {showDeleteArticleButton(article.author.username, authUser) && (
+        <Button component="button" color="danger" onClick={onClickDeleteArticle}>
+          <i className="ion-trash-a"></i> Delete Article
+        </Button>
+      )}
     </div>
   );
 };

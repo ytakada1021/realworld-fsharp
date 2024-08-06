@@ -1,9 +1,11 @@
 import { Footer } from "@/modules/common/components/footer";
-import { HeaderContainer } from "@/modules/common/components/header";
+import { Header } from "@/modules/common/components/header";
 import "@/modules/common/styles/font.css";
 import "@/modules/common/styles/main.css";
+import { getSessionData } from "@/shared/auth/session";
 import "ionicons/css/ionicons.min.css";
 import type { Metadata } from "next";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Conduit",
@@ -13,12 +15,18 @@ export const metadata: Metadata = {
 const RootLayout = ({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) => {
+  const session = getSessionData();
+
   return (
     <html lang="en">
       <body>
-        <HeaderContainer />
+        {session?.authUser ? (
+          <Header isAuthenticated={true} activeMenu="home" profile={session.authUser} />
+        ) : (
+          <Header isAuthenticated={false} activeMenu="home" />
+        )}
         {children}
         <Footer />
       </body>

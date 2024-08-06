@@ -21,7 +21,7 @@ const ArticlePage = async ({ params }: Props) => {
       <div className="banner">
         <div className="container">
           <h1>{article.title}</h1>
-          <ArticleMeta author={author} article={article} />
+          <ArticleMeta author={author} article={article} authUser={session?.authUser} />
         </div>
       </div>
 
@@ -42,7 +42,7 @@ const ArticlePage = async ({ params }: Props) => {
         <hr />
 
         <div className="article-actions">
-          <ArticleMeta author={author} article={article} />
+          <ArticleMeta author={author} article={article} authUser={session?.authUser} />
         </div>
 
         <CommentArea slug={params.slug} initialComments={comments} authUser={session?.authUser} />

@@ -3,6 +3,8 @@ import { Button } from "@/modules/common/components/button";
 import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
 import { ReactNode } from "react";
 import { fetchProfile } from "./fetch";
+import { showEditProfileSettingsButton } from "./authorization";
+import { getSessionData } from "@/shared/auth/session";
 
 type Props = {
   children: ReactNode;
@@ -13,6 +15,7 @@ type Props = {
 
 const ProfilePageLayout = async ({ children, params }: Props) => {
   const profile = await fetchProfile(params.username);
+  const session = getSessionData();
 
   return (
     <div className="profile-page">
@@ -28,9 +31,11 @@ const ProfilePageLayout = async ({ children, params }: Props) => {
               <h4>{profile.username}</h4>
               {profile.bio && <p>{profile.bio}</p>}
               <FollowButton profile={profile} />
-              <Button component="a" href="/settings" className="action-btn" color="secondary">
-                <i className="ion-plus-round"></i> Edit Profile Settings
-              </Button>
+              {showEditProfileSettingsButton(profile.username, session?.authUser) && (
+                <Button component="a" href="/settings" className="action-btn" color="secondary">
+                  <i className="ion-plus-round"></i> Edit Profile Settings
+                </Button>
+              )}
             </div>
           </div>
         </div>

@@ -2,21 +2,28 @@ import { Pagination, PaginationItem } from "@/modules/common/components/paginati
 import { calcTotalPageNumber } from "@/modules/common/functions/pagination";
 import { ArticlePreview } from "@/modules/features/article/components/articlePreview";
 import { Tag } from "@/modules/features/article/components/tag";
+import { getSessionData } from "@/shared/auth/session";
 import clsx from "clsx";
 import Link from "next/link";
+import { showYourFeed } from "./authorization";
 import { fetchArticles, fetchTags } from "./fetch";
-import { generateUrl } from "./functions";
 import { searchParamsSchema } from "./types";
+import { generateUrl } from "./utils";
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
 const HomePage = async (props: Props) => {
+  const session = getSessionData();
   const searchParams = searchParamsSchema.parse(props.searchParams);
-  const globalFeedArticles = await fetchArticles(searchParams);
+  if (session == null && searchParams.tab === "your-feed") {
+    // fallback to global-feed if unauthenticated user accesses personalized feed
+    searchParams.tab = "global-feed";
+  }
+  const { articles, articlesCount } = await fetchArticles(searchParams);
   const { tags } = await fetchTags();
-  const totalPages = calcTotalPageNumber(searchParams.page, 10);
+  const totalPages = calcTotalPageNumber(articlesCount, 10);
 
   return (
     <div className="home-page">
@@ -32,14 +39,16 @@ const HomePage = async (props: Props) => {
           <div className="col-md-9">
             <div className="feed-toggle">
               <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <Link
-                    className={clsx("nav-link", searchParams.tab === "your-feed" && "active")}
-                    href="/?tab=your-feed"
-                  >
-                    Your Feed
-                  </Link>
-                </li>
+                {showYourFeed(session?.authUser) && (
+                  <li className="nav-item">
+                    <Link
+                      className={clsx("nav-link", searchParams.tab === "your-feed" && "active")}
+                      href="/?tab=your-feed"
+                    >
+                      Your Feed
+                    </Link>
+                  </li>
+                )}
                 <li className="nav-item">
                   <Link
                     className={clsx("nav-link", searchParams.tab === "global-feed" && "active")}
@@ -61,7 +70,7 @@ const HomePage = async (props: Props) => {
               </ul>
             </div>
 
-            {globalFeedArticles.articles.map((article, index) => (
+            {articles.map((article, index) => (
               <ArticlePreview key={index} article={article} />
             ))}
 

@@ -1,7 +1,6 @@
-import { getSessionData } from "@/shared/auth/session";
 import clsx from "clsx";
 import Link from "next/link";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { ComponentPropsWithoutRef } from "react";
 
 type Profile = {
   username: string;
@@ -23,7 +22,7 @@ type HeaderProps = ComponentPropsWithoutRef<"header"> & (AuthenticatedHeaderProp
 
 const createActiveClassName = (activeMenu: string, menu: string) => (activeMenu === menu ? "active" : undefined);
 
-export const Header: FC<HeaderProps> = (props) => {
+export const Header = (props: HeaderProps) => {
   const menus = props.isAuthenticated ? (
     <>
       <li className="nav-item">
@@ -85,15 +84,4 @@ export const Header: FC<HeaderProps> = (props) => {
       </nav>
     </header>
   );
-};
-
-export const HeaderContainer: FC = () => {
-  const session = getSessionData();
-
-  if (session == null) {
-    return <Header isAuthenticated={false} activeMenu="home" />;
-  }
-
-  const { authUser } = session;
-  return <Header isAuthenticated={true} activeMenu="home" profile={authUser} />;
 };

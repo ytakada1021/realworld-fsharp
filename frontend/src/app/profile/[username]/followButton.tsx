@@ -14,10 +14,14 @@ export const FollowButton = ({ profile }: { profile: Profile }) => {
   };
 
   return (
-    <>
-      <Button component="button" className="action-btn" color="secondary" onClick={onClickFollow}>
-        <i className="ion-plus-round"></i> {profile.following ? "Follow" : "Following"} {profileState.username}
-      </Button>
-    </>
+    <Button
+      component="button"
+      className="action-btn"
+      color="secondary"
+      variant={profile.following ? "filled" : "outline"}
+      onClick={onClickFollow}
+    >
+      <i className="ion-plus-round"></i> {profile.following ? "Following" : "Follow"} {profileState.username}
+    </Button>
   );
 };

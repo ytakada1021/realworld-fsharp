@@ -6,6 +6,7 @@ import { Comment, User } from "@/shared/types";
 import clsx from "clsx";
 import { ChangeEventHandler, ComponentPropsWithoutRef, useState } from "react";
 import { postCommentAction } from "./actions";
+import { showCommentTrashButton } from "./authorization";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   slug: string;
@@ -36,7 +37,11 @@ export const CommentArea = ({ slug, initialComments, authUser, className, ...res
           onChangeBody={onChangeBody}
         />
         {comments.map((comment, index) => (
-          <CommentCard key={index} comment={comment} />
+          <CommentCard
+            key={index}
+            comment={comment}
+            showTrash={showCommentTrashButton(comment.author.username, authUser)}
+          />
         ))}
       </div>
     </div>
