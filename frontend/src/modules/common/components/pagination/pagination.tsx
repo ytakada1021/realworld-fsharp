@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { ComponentPropsWithoutRef } from "react";
 
 type PaginationItemProps = ComponentPropsWithoutRef<"li"> & {
   href?: string;
   active?: boolean;
 };
 
-export const PaginationItem: FC<PaginationItemProps> = ({ href, active, className, children, ...rest }) => (
+export const PaginationItem = ({ href, active, className, children, ...rest }: PaginationItemProps) => (
   <li className={clsx("page-item", className, active && "active")} {...rest}>
     <a className="page-link" href={href}>
       {children}
@@ -16,7 +16,7 @@ export const PaginationItem: FC<PaginationItemProps> = ({ href, active, classNam
 
 type PaginationProps = ComponentPropsWithoutRef<"ul">;
 
-export const Pagination: FC<PaginationProps> = ({ className, children, ...rest }) =>
+export const Pagination = ({ className, children, ...rest }: PaginationProps) =>
   children && (
     <ul className={clsx("pagination", className)} {...rest}>
       {children}

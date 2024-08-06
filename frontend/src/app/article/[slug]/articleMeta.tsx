@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/modules/common/components/button";
-import { DefaultIcon } from "@/modules/common/components/defaultIcon";
+import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
 import { Article, Profile } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";

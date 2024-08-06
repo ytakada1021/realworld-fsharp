@@ -2,12 +2,12 @@
 
 import { favoriteArticleAction } from "@/app/actions";
 import { Button } from "@/modules/common/components/button";
-import { DefaultIcon } from "@/modules/common/components/defaultIcon";
+import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
 import { Article } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, useState } from "react";
-import { Tag } from "./tag";
+import { Tag } from "../tag";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   article: Article;

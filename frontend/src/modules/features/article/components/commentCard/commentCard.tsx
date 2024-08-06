@@ -1,5 +1,6 @@
 "use client";
 
+import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
 import { Comment } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
@@ -20,7 +21,11 @@ export const CommentCard: FC<CommentCardProps> = ({ comment, showTrash, classNam
       </div>
       <div className="card-footer">
         <Link href={`/profile/${author.username}`} className="comment-author">
-          <img src={author.image || "https://picsum.photos/200"} className="comment-author-img" />
+          {author.image ? (
+            <img src={author.image} className="comment-author-img" />
+          ) : (
+            <DefaultIcon className="comment-author-img" />
+          )}
         </Link>
         &nbsp;
         <Link href={`/profile/${author.username}`} className="comment-author">

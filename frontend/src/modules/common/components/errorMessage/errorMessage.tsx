@@ -1,10 +1,8 @@
-import { FC } from "react";
-
-type ErrorMessageProps = {
+type Props = {
   errors: string[];
 };
 
-export const ErrorMessage: FC<ErrorMessageProps> = ({ errors }) => {
+export const ErrorMessage = ({ errors }: Props) => {
   return (
     errors.length > 0 && (
       <ul className="error-messages" aria-live="polite">

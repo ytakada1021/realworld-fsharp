@@ -1,13 +1,14 @@
+import Link from "next/link";
 import { ComponentPropsWithoutRef, FC } from "react";
 
-type FooterProps = ComponentPropsWithoutRef<"footer">;
+type Props = ComponentPropsWithoutRef<"footer">;
 
-export const Footer: FC<FooterProps> = (props) => (
+export const Footer = (props: Props) => (
   <footer {...props}>
     <div className="container">
-      <a href="/" className="logo-font">
+      <Link href="/" className="logo-font">
         conduit
-      </a>
+      </Link>
       <span className="attribution">
         An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed
         under MIT.
