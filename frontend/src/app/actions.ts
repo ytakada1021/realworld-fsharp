@@ -1,7 +1,7 @@
 "use server";
 
-import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/api/apiClient";
-import { articleSchema } from "@/types";
+import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
+import { articleSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
 
 export const favoriteArticleAction = async (slug: string) => {

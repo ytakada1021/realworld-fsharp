@@ -1,9 +1,9 @@
+import { Pagination, PaginationItem } from "@/modules/common/components/pagination";
+import { calcTotalPageNumber } from "@/modules/common/functions/pagination";
+import { ArticlePreview } from "@/modules/features/article/components/articlePreview";
 import Link from "next/link";
 import { fetchArticlesByAuthor } from "./fetch";
 import { searchParamsSchema } from "./types";
-import { ArticlePreview } from "@/features/article/components/articlePreview";
-import { calcTotalPageNumber, generateUrl } from "@/app/functions";
-import { Pagination, PaginationItem } from "@/components/pagination";
 
 type Props = {
   params: {

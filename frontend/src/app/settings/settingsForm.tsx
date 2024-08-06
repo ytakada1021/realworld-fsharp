@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/button";
-import { ErrorMessage } from "@/components/errorMessage";
-import { User } from "@/types";
+import { Button } from "@/modules/common/components/button";
+import { ErrorMessage } from "@/modules/common/components/errorMessage";
+import { User } from "@/shared/types";
 import { useFormState } from "react-dom";
 import { logoutAction, updateSettingsAction } from "./actions";
 import { initialFormState } from "./types";
@@ -64,7 +64,9 @@ export const SettingsForm = ({ user }: Props) => {
               autoComplete="new-password"
             />
           </fieldset>
-          <button className="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
+          <Button component="button" size="lg" color="primary" variant="filled" type="submit" className="pull-xs-right">
+            Update Settings
+          </Button>
         </fieldset>
       </form>
       <hr />

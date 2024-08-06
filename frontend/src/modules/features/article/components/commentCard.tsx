@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment } from "@/types";
+import { Comment } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, FC } from "react";

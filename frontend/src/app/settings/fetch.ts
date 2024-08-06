@@ -1,6 +1,6 @@
 "use server";
 
-import { createApiClient, isUnauthorizedError, isForbiddenError } from "@/api/apiClient";
+import { createApiClient, isUnauthorizedError, isForbiddenError } from "@/shared/api/apiClient";
 import { redirect } from "next/navigation";
 
 export const fetchSettings = async () => {

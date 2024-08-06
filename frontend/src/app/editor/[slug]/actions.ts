@@ -1,6 +1,11 @@
 "use server";
 
-import { createApiClient, isForbiddenError, isUnauthorizedError, isUnprocessableEntityError } from "@/api/apiClient";
+import {
+  createApiClient,
+  isForbiddenError,
+  isUnauthorizedError,
+  isUnprocessableEntityError,
+} from "@/shared/api/apiClient";
 import { redirect } from "next/navigation";
 import { FormState } from "./types";
 

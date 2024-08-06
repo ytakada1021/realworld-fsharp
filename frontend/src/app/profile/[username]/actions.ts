@@ -1,7 +1,7 @@
 "use server";
 
-import { createApiClient, isUnauthorizedError, isForbiddenError } from "@/api/apiClient";
-import { profileSchema } from "@/types";
+import { createApiClient, isUnauthorizedError, isForbiddenError } from "@/shared/api/apiClient";
+import { profileSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
 
 export const followAction = async (username: string) => {

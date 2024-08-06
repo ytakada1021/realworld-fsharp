@@ -1,13 +1,13 @@
 "use client";
 
-import clsx from "clsx";
-import { ComponentPropsWithoutRef, FC, useState } from "react";
-import { Tag } from "./tag";
-import Link from "next/link";
-import { DefaultIcon } from "@/features/profile/defaultIcon";
-import { Button } from "@/components/button";
 import { favoriteArticleAction } from "@/app/actions";
-import { Article } from "@/types";
+import { Button } from "@/modules/common/components/button";
+import { DefaultIcon } from "@/modules/common/components/defaultIcon";
+import { Article } from "@/shared/types";
+import clsx from "clsx";
+import Link from "next/link";
+import { ComponentPropsWithoutRef, useState } from "react";
+import { Tag } from "./tag";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   article: Article;

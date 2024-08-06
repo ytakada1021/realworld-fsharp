@@ -1,8 +1,9 @@
 "use client";
 
-import { ErrorMessage } from "@/components/errorMessage";
-import { Tag } from "@/features/article/components/tag";
-import { Article } from "@/types";
+import { Button } from "@/modules/common/components/button";
+import { ErrorMessage } from "@/modules/common/components/errorMessage";
+import { Tag } from "@/modules/features/article/components/tag";
+import { Article } from "@/shared/types";
 import { useFormState } from "react-dom";
 import { updateArticleAction } from "./actions";
 import { initialFormState } from "./types";
@@ -56,9 +57,9 @@ export const EditArticleForm = ({ article }: Props) => {
               ))}
             </ul>
           </fieldset>
-          <button className="btn btn-lg pull-xs-right btn-primary" type="submit">
+          <Button component="button" size="lg" color="primary" variant="filled" type="submit" className="pull-xs-right">
             Publish Article
-          </button>
+          </Button>
         </fieldset>
       </form>
     </>

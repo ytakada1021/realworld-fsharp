@@ -1,10 +1,11 @@
-import { Pagination, PaginationItem } from "@/components/pagination";
-import { ArticlePreview } from "@/features/article/components/articlePreview";
-import { Tag } from "@/features/article/components/tag";
+import { Pagination, PaginationItem } from "@/modules/common/components/pagination";
+import { calcTotalPageNumber } from "@/modules/common/functions/pagination";
+import { ArticlePreview } from "@/modules/features/article/components/articlePreview";
+import { Tag } from "@/modules/features/article/components/tag";
 import clsx from "clsx";
 import Link from "next/link";
 import { fetchArticles, fetchTags } from "./fetch";
-import { calcTotalPageNumber, generateUrl } from "./functions";
+import { generateUrl } from "./functions";
 import { searchParamsSchema } from "./types";
 
 type Props = {

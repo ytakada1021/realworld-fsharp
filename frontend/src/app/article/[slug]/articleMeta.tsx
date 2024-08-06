@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/button";
-import { DefaultIcon } from "@/features/profile/defaultIcon";
-import { Article, Profile } from "@/types";
+import { Button } from "@/modules/common/components/button";
+import { DefaultIcon } from "@/modules/common/components/defaultIcon";
+import { Article, Profile } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, useState } from "react";

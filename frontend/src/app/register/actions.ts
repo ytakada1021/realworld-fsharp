@@ -1,7 +1,7 @@
 "use server";
 
-import { createApiClient, isUnprocessableEntityError } from "@/api/apiClient";
-import { saveSessionData } from "@/features/auth/session";
+import { createApiClient, isUnprocessableEntityError } from "@/shared/api/apiClient";
+import { saveSessionData } from "@/shared/auth/session";
 import { redirect } from "next/navigation";
 import { FormState } from "./types";
 

@@ -1,6 +1,6 @@
-import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/api/apiClient";
-import { calcOffsetLimitFromPageNumber } from "@/app/functions";
-import { articleSchema } from "@/types";
+import { calcOffsetLimitFromPageNumber } from "@/modules/common/functions/pagination";
+import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
+import { articleSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
 
 export const fetchArticlesByUserFavorites = async (username: string, pageNumber: number) => {

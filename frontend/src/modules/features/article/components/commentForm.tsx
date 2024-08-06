@@ -1,5 +1,5 @@
-import { Button } from "@/components/button";
-import { DefaultIcon } from "@/features/profile/defaultIcon";
+import { Button } from "@/modules/common/components/button";
+import { DefaultIcon } from "@/modules/common/components/defaultIcon";
 import clsx from "clsx";
 import { ChangeEventHandler, ComponentPropsWithoutRef, MouseEventHandler } from "react";
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SignUpForm } from "./form";
+import { SignUpForm } from "./signUpForm";
 
 const SignUpPage = () => (
   <div className="auth-page">

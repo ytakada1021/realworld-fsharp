@@ -1,4 +1,4 @@
-import { getSessionData } from "@/features/auth/session";
+import { getSessionData } from "@/shared/auth/session";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, FC } from "react";

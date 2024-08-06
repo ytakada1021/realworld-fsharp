@@ -1,5 +1,5 @@
-import { components, paths } from "@/generated/apiSchema";
 import type { UnionToIntersection } from "type-fest";
+import { components, paths } from "./apiSchema.generated";
 
 export type ApiPaths = keyof paths;
 
