@@ -1,5 +1,5 @@
-import { Tag } from "@/features/article/components/tag";
-import { getSessionData } from "@/features/auth/session";
+import { Tag } from "@/modules/features/article/components/tag";
+import { getSessionData } from "@/shared/auth/session";
 import { ArticleMeta } from "./articleMeta";
 import { CommentArea } from "./commentArea";
 import { fetchArticle, fetchComments } from "./fetch";

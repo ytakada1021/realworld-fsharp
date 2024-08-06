@@ -1,5 +1,4 @@
-import { axios } from "@/lib/axios";
-import { isAxiosError } from "axios";
+import { axios } from "@/shared/libs/axios";
 import {
   ApiJsonBody,
   ApiPathParam,
@@ -8,8 +7,9 @@ import {
   ApiResponse,
   ApiUnprocessableEntityErrorResponse,
   HttpMethods,
-} from "@/api/types";
-import { getSessionData } from "@/features/auth/session";
+} from "@/shared/api/types";
+import { isAxiosError } from "axios";
+import { getSessionData } from "../auth/session";
 
 type CreateApiClientParams<T extends ApiPaths, U extends HttpMethods> = {
   path: T;
@@ -53,7 +53,7 @@ export const createApiClient = <T extends ApiPaths, U extends HttpMethods>(param
         url: path,
         data: params.params?.body,
         headers: {
-          Authorization: token,
+          ...(token && { Authorization: `token ${token}` }),
         },
       })
       .then((response) => response.data);

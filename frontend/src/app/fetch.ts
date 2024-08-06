@@ -1,8 +1,8 @@
-import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/api/apiClient";
+import { calcOffsetLimitFromPageNumber } from "@/modules/common/functions/pagination";
+import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
 import { ExhaustiveError } from "@/shared/errors";
-import { articleSchema } from "@/types";
+import { articleSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
-import { calcOffsetLimitFromPageNumber } from "./functions";
 import { SearchParams } from "./types";
 
 const fetchGlobalArticles = async (page: number) => {

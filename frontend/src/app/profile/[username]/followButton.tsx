@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/button";
-import { Profile } from "@/types";
+import { Button } from "@/modules/common/components/button";
+import { Profile } from "@/shared/types";
 import { useState } from "react";
 import { followAction } from "./actions";
 

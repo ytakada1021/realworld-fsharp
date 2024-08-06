@@ -1,6 +1,6 @@
 import { FollowButton } from "@/app/profile/[username]/followButton";
-import { Button } from "@/components/button";
-import { DefaultIcon } from "@/features/profile/defaultIcon";
+import { Button } from "@/modules/common/components/button";
+import { DefaultIcon } from "@/modules/common/components/defaultIcon";
 import { ReactNode } from "react";
 import { fetchProfile } from "./fetch";
 

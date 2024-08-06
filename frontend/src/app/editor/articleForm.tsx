@@ -1,7 +1,8 @@
 "use client";
 
-import { ErrorMessage } from "@/components/errorMessage";
-import { Tag } from "@/features/article/components/tag";
+import { Button } from "@/modules/common/components/button";
+import { ErrorMessage } from "@/modules/common/components/errorMessage";
+import { Tag } from "@/modules/features/article/components/tag";
 import { KeyboardEventHandler, useState } from "react";
 import { useFormState } from "react-dom";
 import { createArticleAction } from "./actions";
@@ -72,9 +73,9 @@ export const ArticleForm = () => {
               ))}
             </ul>
           </fieldset>
-          <button className="btn btn-lg pull-xs-right btn-primary" type="submit">
+          <Button component="button" size="lg" color="primary" variant="filled" type="submit" className="pull-xs-right">
             Publish Article
-          </button>
+          </Button>
         </fieldset>
       </form>
     </>

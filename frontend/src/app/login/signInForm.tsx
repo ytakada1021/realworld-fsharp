@@ -1,10 +1,10 @@
 "use client";
 
-import { ErrorMessage } from "@/components/errorMessage";
+import { ErrorMessage } from "@/modules/common/components/errorMessage";
 import { signInAction } from "./actions";
 import { useFormState } from "react-dom";
 import { initialFormState } from "./types";
-import { Button } from "@/components/button";
+import { Button } from "@/modules/common/components/button";
 
 export const SignInForm = () => {
   const [formState, formAction] = useFormState(signInAction, initialFormState);

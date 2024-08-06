@@ -1,5 +1,5 @@
-import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/api/apiClient";
-import { Article, articleSchema, Comment, commentSchema } from "@/types";
+import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
+import { Article, articleSchema, Comment, commentSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
 
 export const fetchArticle = async (slug: string): Promise<Article> => {

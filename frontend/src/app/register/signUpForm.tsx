@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/button";
-import { ErrorMessage } from "@/components/errorMessage";
+import { Button } from "@/modules/common/components/button";
+import { ErrorMessage } from "@/modules/common/components/errorMessage";
 import { useFormState } from "react-dom";
 import { signUpAction } from "./actions";
 import { initialFormState } from "./types";
@@ -22,10 +22,7 @@ export const SignUpForm = () => {
         <fieldset className="form-group">
           <input className="form-control form-control-lg" type="password" placeholder="Password" name="password" />
         </fieldset>
-        <button type="submit" className="btn btn-lg btn-primary pull-xs-right">
-          Sign up
-        </button>
-        <Button component="button" size="lg" type="submit" className="pull-xs-right">
+        <Button component="button" size="lg" variant="filled" type="submit" className="pull-xs-right">
           Sign up
         </Button>
       </form>

@@ -1,8 +1,8 @@
 "use client";
 
-import { CommentCard } from "@/features/article/components/commentCard";
-import { CommentForm } from "@/features/article/components/commentForm";
-import { Comment, User } from "@/types";
+import { CommentCard } from "@/modules/features/article/components/commentCard";
+import { CommentForm } from "@/modules/features/article/components/commentForm";
+import { Comment, User } from "@/shared/types";
 import clsx from "clsx";
 import { ChangeEventHandler, ComponentPropsWithoutRef, useState } from "react";
 import { postCommentAction } from "./actions";
