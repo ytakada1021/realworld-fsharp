@@ -7,21 +7,21 @@ import {
   isUnprocessableEntityError,
 } from "@/shared/api/apiClient";
 import { redirect } from "next/navigation";
-import { FormState } from "./types";
+import { Inputs } from "./types";
 
-export const updateArticleAction = async (_prevState: FormState, formData: FormData): Promise<FormState> => {
+export const updateArticleAction = async (inputs: Inputs) => {
   const client = createApiClient({
     path: "/articles/{slug}",
     httpMethod: "put",
     params: {
       paths: {
-        slug: formData.get("slug")?.toString() ?? "",
+        slug: inputs.slug,
       },
       body: {
         article: {
-          title: formData.get("title")?.toString() ?? "",
-          description: formData.get("description")?.toString() ?? "",
-          body: formData.get("body")?.toString() ?? "",
+          title: inputs.title,
+          description: inputs.description,
+          body: inputs.body,
         },
       },
     },

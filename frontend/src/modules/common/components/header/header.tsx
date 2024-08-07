@@ -45,7 +45,7 @@ const AuthenticatedMenus = ({ authUser }: { authUser: User }) => {
       </li>
       <li className="nav-item">
         <HeaderNavItem href="/settings" segment="settings">
-          <i className="ion-compose"></i>&nbsp;Settings
+          <i className="ion-gear-a"></i>&nbsp;Settings
         </HeaderNavItem>
       </li>
       <li className="nav-item">

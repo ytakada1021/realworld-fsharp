@@ -2,30 +2,45 @@
 
 import { Button } from "@/modules/common/components/button";
 import { ErrorMessage } from "@/modules/common/components/errorMessage";
+import { useToast } from "@/modules/common/components/toast/useToast";
 import { User } from "@/shared/types";
-import { useFormState } from "react-dom";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { logoutAction, updateSettingsAction } from "./actions";
-import { initialFormState } from "./types";
+import { Inputs } from "./types";
 
 type Props = {
   user: User;
 };
 
 export const SettingsForm = ({ user }: Props) => {
-  const [formState, formAction] = useFormState(updateSettingsAction, initialFormState);
+  const { register, handleSubmit } = useForm<Inputs>();
+  const [errors, setErrors] = useState<string[]>([]);
+  const { addToast } = useToast();
+
+  const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
+    const result = await updateSettingsAction(inputs);
+    setErrors(result.errors);
+    if (result.errors.length < 1) {
+      addToast({
+        header: <i className="ion-checkmark-circled"></i>,
+        body: "Successfully updated settings!",
+      });
+    }
+  };
 
   return (
     <>
-      <ErrorMessage errors={formState.errors} />
-      <form action={formAction}>
+      <ErrorMessage errors={errors} />
+      <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <fieldset className="form-group">
             <input
               className="form-control"
               type="text"
               placeholder="URL of profile picture"
-              name="image"
               defaultValue={user.image}
+              {...register("image")}
             />
           </fieldset>
           <fieldset className="form-group">
@@ -33,8 +48,8 @@ export const SettingsForm = ({ user }: Props) => {
               className="form-control form-control-lg"
               type="text"
               placeholder="Your Name"
-              name="username"
               defaultValue={user.username}
+              {...register("username")}
             />
           </fieldset>
           <fieldset className="form-group">
@@ -42,7 +57,7 @@ export const SettingsForm = ({ user }: Props) => {
               className="form-control form-control-lg"
               rows={8}
               placeholder="Short bio about you"
-              name="bio"
+              {...register("bio")}
               defaultValue={user.bio}
             ></textarea>
           </fieldset>
@@ -51,7 +66,7 @@ export const SettingsForm = ({ user }: Props) => {
               className="form-control form-control-lg"
               type="text"
               placeholder="Email"
-              name="email"
+              {...register("email")}
               defaultValue={user.email}
             />
           </fieldset>
@@ -60,7 +75,7 @@ export const SettingsForm = ({ user }: Props) => {
               className="form-control form-control-lg"
               type="password"
               placeholder="New Password"
-              name="password"
+              {...register("password")}
               autoComplete="new-password"
             />
           </fieldset>

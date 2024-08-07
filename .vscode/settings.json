@@ -9,6 +9,7 @@
     "npgsql",
     "openapi",
     "unfollow",
-    "unvalidated"
+    "unvalidated",
+    "zustand"
   ]
 }
