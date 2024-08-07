@@ -1,5 +1,6 @@
 import { Footer } from "@/modules/common/components/footer";
 import { Header } from "@/modules/common/components/header";
+import { Toasts } from "@/modules/common/components/toast/toasts";
 import "@/modules/common/styles/font.css";
 import "@/modules/common/styles/main.css";
 import { getSessionData } from "@/shared/auth/session";
@@ -25,6 +26,7 @@ const RootLayout = ({
         <Header authUser={session?.authUser} />
         {children}
         <Footer />
+        <Toasts />
       </body>
     </html>
   );

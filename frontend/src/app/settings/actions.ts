@@ -7,22 +7,16 @@ import {
   isUnprocessableEntityError,
 } from "@/shared/api/apiClient";
 import { redirect } from "next/navigation";
-import { FormState } from "./types";
+import { Inputs } from "./types";
 import { deleteSession } from "@/shared/auth/session";
 
-export const updateSettingsAction = async (_prevState: FormState, formData: FormData) => {
+export const updateSettingsAction = async (inputs: Inputs) => {
   const client = createApiClient({
     path: "/user",
     httpMethod: "put",
     params: {
       body: {
-        user: {
-          username: formData.get("username")?.toString() ?? undefined,
-          bio: formData.get("bio")?.toString() ?? undefined,
-          image: formData.get("image")?.toString() ?? undefined,
-          email: formData.get("email")?.toString() ?? undefined,
-          password: formData.get("password")?.toString() ?? undefined,
-        },
+        user: inputs,
       },
     },
   });

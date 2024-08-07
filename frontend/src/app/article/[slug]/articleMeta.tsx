@@ -46,7 +46,11 @@ export const ArticleMeta = ({ author, article, authUser, className, ...rest }: P
   };
 
   const onClickDeleteArticle = () => {
-    deleteArticleAction(articleState.slug);
+    const confirmed = confirm("Delete article?");
+
+    if (confirmed) {
+      deleteArticleAction(articleState.slug);
+    }
   };
 
   return (

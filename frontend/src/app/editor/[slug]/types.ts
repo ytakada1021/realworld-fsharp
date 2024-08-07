@@ -1,7 +1,6 @@
-export type FormState = {
-  errors: string[];
-};
-
-export const initialFormState: FormState = {
-  errors: [],
+export type Inputs = {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
 };

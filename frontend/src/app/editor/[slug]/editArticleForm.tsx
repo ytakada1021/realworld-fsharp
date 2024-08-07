@@ -2,23 +2,38 @@
 
 import { Button } from "@/modules/common/components/button";
 import { ErrorMessage } from "@/modules/common/components/errorMessage";
+import { useToast } from "@/modules/common/components/toast";
 import { Tag } from "@/modules/features/article/components/tag";
 import { Article } from "@/shared/types";
-import { useFormState } from "react-dom";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { updateArticleAction } from "./actions";
-import { initialFormState } from "./types";
+import { Inputs } from "./types";
 
 type Props = {
   article: Article;
 };
 
 export const EditArticleForm = ({ article }: Props) => {
-  const [formState, action] = useFormState(updateArticleAction, initialFormState);
+  const { register, handleSubmit } = useForm<Inputs>();
+  const [errors, setErrors] = useState<string[]>([]);
+  const { addToast } = useToast();
+
+  const onSubmit: SubmitHandler<Inputs> = async (inputs) => {
+    const result = await updateArticleAction(inputs);
+    setErrors(result.errors);
+    if (result.errors.length < 1) {
+      addToast({
+        header: <i className="ion-checkmark-circled"></i>,
+        body: "Successfully updated article!",
+      });
+    }
+  };
 
   return (
     <>
-      <ErrorMessage errors={formState.errors} />
-      <form action={action}>
+      <ErrorMessage errors={errors} />
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input type="hidden" name="slug" value={article.slug} />
         <fieldset>
           <fieldset className="form-group">
@@ -26,8 +41,8 @@ export const EditArticleForm = ({ article }: Props) => {
               type="text"
               className="form-control form-control-lg"
               placeholder="Article Title"
-              name="title"
               defaultValue={article.title}
+              {...register("title")}
             />
           </fieldset>
           <fieldset className="form-group">
@@ -35,8 +50,8 @@ export const EditArticleForm = ({ article }: Props) => {
               type="text"
               className="form-control"
               placeholder="What's this article about?"
-              name="description"
               defaultValue={article.description}
+              {...register("description")}
             />
           </fieldset>
           <fieldset className="form-group">
@@ -44,8 +59,8 @@ export const EditArticleForm = ({ article }: Props) => {
               className="form-control"
               rows={8}
               placeholder="Write your article (in markdown)"
-              name="body"
               defaultValue={article.body}
+              {...register("body")}
             ></textarea>
           </fieldset>
           <fieldset className="form-group">
@@ -58,7 +73,7 @@ export const EditArticleForm = ({ article }: Props) => {
             </ul>
           </fieldset>
           <Button component="button" size="lg" color="primary" variant="filled" type="submit" className="pull-xs-right">
-            Publish Article
+            Update Article
           </Button>
         </fieldset>
       </form>
