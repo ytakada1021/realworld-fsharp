@@ -3,6 +3,7 @@ import { getSessionData } from "@/shared/auth/session";
 import { ArticleMeta } from "./articleMeta";
 import { CommentArea } from "./commentArea";
 import { fetchArticle, fetchComments } from "./fetch";
+import { Suspense } from "react";
 
 type Props = {
   params: {
@@ -12,8 +13,7 @@ type Props = {
 
 const ArticlePage = async ({ params }: Props) => {
   const article = await fetchArticle(params.slug);
-  const author = article.author;
-  const comments = await fetchComments(params.slug);
+  const comments = fetchComments(params.slug);
   const session = getSessionData();
 
   return (
@@ -21,7 +21,7 @@ const ArticlePage = async ({ params }: Props) => {
       <div className="banner">
         <div className="container">
           <h1>{article.title}</h1>
-          <ArticleMeta author={author} article={article} authUser={session?.authUser} />
+          <ArticleMeta article={article} authUser={session?.authUser} />
         </div>
       </div>
 
@@ -42,10 +42,12 @@ const ArticlePage = async ({ params }: Props) => {
         <hr />
 
         <div className="article-actions">
-          <ArticleMeta author={author} article={article} authUser={session?.authUser} />
+          <ArticleMeta article={article} authUser={session?.authUser} />
         </div>
 
-        <CommentArea slug={params.slug} initialComments={comments} authUser={session?.authUser} />
+        <Suspense fallback={<p>⌛Loading...</p>}>
+          <CommentArea slug={params.slug} initialComments={comments} authUser={session?.authUser} />
+        </Suspense>
       </div>
     </div>
   );

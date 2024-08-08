@@ -2,7 +2,7 @@
 
 import { Button } from "@/modules/common/components/button";
 import { DefaultIcon } from "@/modules/common/components/icons/defaultIcon";
-import { Article, Profile, User } from "@/shared/types";
+import { Article, User } from "@/shared/types";
 import clsx from "clsx";
 import Link from "next/link";
 import { ComponentPropsWithoutRef, useState } from "react";
@@ -16,14 +16,14 @@ import {
 import { showDeleteArticleButton, showEditArticleButton } from "./authorization";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
-  author: Profile;
   article: Article;
   authUser?: User;
 };
 
-export const ArticleMeta = ({ author, article, authUser, className, ...rest }: Props) => {
-  const [articleState, setArticleState] = useState(article);
-  const [authorState, setAuthorState] = useState(author);
+export const ArticleMeta = ({ article, authUser, className, ...rest }: Props) => {
+  const { author: initialAuthor, ...initialArticle } = article;
+  const [articleState, setArticleState] = useState(initialArticle);
+  const [authorState, setAuthorState] = useState(initialAuthor);
 
   const onClickFavorite = async () => {
     if (articleState.favorited) {
@@ -71,12 +71,12 @@ export const ArticleMeta = ({ author, article, authUser, className, ...rest }: P
         <i className="ion-heart"></i> {articleState.favorited ? "Unfavorite" : "Favorite"} Article{" "}
         <span className="counter">({articleState.favoritesCount})</span>
       </Button>
-      {showEditArticleButton(article.author.username, authUser) && (
+      {showEditArticleButton(authorState.username, authUser) && (
         <Button component="a" href={`/editor/${articleState.slug}`} color="secondary">
           <i className="ion-edit"></i> Edit Article
         </Button>
       )}
-      {showDeleteArticleButton(article.author.username, authUser) && (
+      {showDeleteArticleButton(authorState.username, authUser) && (
         <Button component="button" color="danger" onClick={onClickDeleteArticle}>
           <i className="ion-trash-a"></i> Delete Article
         </Button>

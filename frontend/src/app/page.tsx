@@ -5,10 +5,53 @@ import { Tag } from "@/modules/features/article/components/tag";
 import { getSessionData } from "@/shared/auth/session";
 import clsx from "clsx";
 import Link from "next/link";
+import { Suspense } from "react";
 import { showYourFeed } from "./authorization";
 import { fetchArticles, fetchTags } from "./fetch";
-import { searchParamsSchema } from "./types";
+import { SearchParams, searchParamsSchema } from "./types";
 import { generateUrl } from "./utils";
+
+const ArticleList = async ({ searchParams }: { searchParams: SearchParams }) => {
+  const { articles, articlesCount } = await fetchArticles(searchParams);
+  const totalPages = calcTotalPageNumber(articlesCount, 10);
+
+  return (
+    <>
+      {articles.map((article, index) => (
+        <ArticlePreview key={index} article={article} />
+      ))}
+
+      <Pagination>
+        {[...Array(totalPages)].map((_, index) => {
+          const page = index + 1;
+          const href = generateUrl(page.toString(), searchParams.tab, searchParams.tag);
+          return (
+            <PaginationItem href={href} active={page === searchParams.page} key={index}>
+              {page}
+            </PaginationItem>
+          );
+        })}
+      </Pagination>
+    </>
+  );
+};
+
+const TagList = async () => {
+  const { tags } = await fetchTags();
+
+  return (
+    <div className="sidebar">
+      <p>Popular Tags</p>
+      <div className="tag-list">
+        {tags.map((tag, index) => (
+          <Tag as="a" variant="filled" href={`/?tab=tag&tag=${tag}`} key={index}>
+            {tag}
+          </Tag>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -21,9 +64,6 @@ const HomePage = async (props: Props) => {
     // fallback to global-feed if unauthenticated user accesses personalized feed
     searchParams.tab = "global-feed";
   }
-  const { articles, articlesCount } = await fetchArticles(searchParams);
-  const { tags } = await fetchTags();
-  const totalPages = calcTotalPageNumber(articlesCount, 10);
 
   return (
     <div className="home-page">
@@ -69,36 +109,15 @@ const HomePage = async (props: Props) => {
                 )}
               </ul>
             </div>
-
-            {articles.map((article, index) => (
-              <ArticlePreview key={index} article={article} />
-            ))}
-
-            <Pagination>
-              {[...Array(totalPages)].map((_, index) => {
-                const page = index + 1;
-                const href = generateUrl(page.toString(), searchParams.tab, searchParams.tag);
-                return (
-                  <PaginationItem href={href} active={page === searchParams.page} key={index}>
-                    {page}
-                  </PaginationItem>
-                );
-              })}
-            </Pagination>
+            <Suspense key={JSON.stringify(searchParams)} fallback={<p>⌛Loading...</p>}>
+              <ArticleList searchParams={searchParams} />
+            </Suspense>
           </div>
 
           <div className="col-md-3">
-            <div className="sidebar">
-              <p>Popular Tags</p>
-
-              <div className="tag-list">
-                {tags.map((tag, index) => (
-                  <Tag as="a" variant="filled" href={`/?tab=tag&tag=${tag}`} key={index}>
-                    {tag}
-                  </Tag>
-                ))}
-              </div>
-            </div>
+            <Suspense fallback={<p>⌛Loading...</p>}>
+              <TagList />
+            </Suspense>
           </div>
         </div>
       </div>

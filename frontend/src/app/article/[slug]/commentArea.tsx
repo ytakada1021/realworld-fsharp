@@ -4,18 +4,18 @@ import { CommentCard } from "@/modules/features/article/components/commentCard";
 import { CommentForm } from "@/modules/features/article/components/commentForm";
 import { Comment, User } from "@/shared/types";
 import clsx from "clsx";
-import { ChangeEventHandler, ComponentPropsWithoutRef, useState } from "react";
+import { ChangeEventHandler, ComponentPropsWithoutRef, use, useState } from "react";
 import { postCommentAction } from "./actions";
 import { showCommentTrashButton } from "./authorization";
 
 type Props = ComponentPropsWithoutRef<"div"> & {
   slug: string;
-  initialComments: Comment[];
+  initialComments: Promise<Comment[]>;
   authUser?: User;
 };
 
 export const CommentArea = ({ slug, initialComments, authUser, className, ...rest }: Props) => {
-  const [comments, setComments] = useState(initialComments);
+  const [comments, setComments] = useState(use(initialComments));
   const [bodyState, setBodyState] = useState("");
 
   const onChangeBody: ChangeEventHandler<HTMLTextAreaElement> = (event) => {

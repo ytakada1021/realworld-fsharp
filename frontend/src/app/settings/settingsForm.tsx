@@ -4,17 +4,25 @@ import { Button } from "@/modules/common/components/button";
 import { ErrorMessage } from "@/modules/common/components/errorMessage";
 import { useToast } from "@/modules/common/components/toast/useToast";
 import { User } from "@/shared/types";
-import { useState } from "react";
+import { use, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { logoutAction, updateSettingsAction } from "./actions";
 import { Inputs } from "./types";
 
 type Props = {
-  user: User;
+  user: Promise<User>;
 };
 
 export const SettingsForm = ({ user }: Props) => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const initialUser = use(user);
+  const { register, handleSubmit } = useForm<Inputs>({
+    defaultValues: {
+      username: initialUser.username,
+      bio: initialUser.bio,
+      image: initialUser.image,
+      email: initialUser.email,
+    },
+  });
   const [errors, setErrors] = useState<string[]>([]);
   const { addToast } = useToast();
 
@@ -35,20 +43,13 @@ export const SettingsForm = ({ user }: Props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <fieldset className="form-group">
-            <input
-              className="form-control"
-              type="text"
-              placeholder="URL of profile picture"
-              defaultValue={user.image}
-              {...register("image")}
-            />
+            <input className="form-control" type="text" placeholder="URL of profile picture" {...register("image")} />
           </fieldset>
           <fieldset className="form-group">
             <input
               className="form-control form-control-lg"
               type="text"
               placeholder="Your Name"
-              defaultValue={user.username}
               {...register("username")}
             />
           </fieldset>
@@ -58,17 +59,10 @@ export const SettingsForm = ({ user }: Props) => {
               rows={8}
               placeholder="Short bio about you"
               {...register("bio")}
-              defaultValue={user.bio}
             ></textarea>
           </fieldset>
           <fieldset className="form-group">
-            <input
-              className="form-control form-control-lg"
-              type="text"
-              placeholder="Email"
-              {...register("email")}
-              defaultValue={user.email}
-            />
+            <input className="form-control form-control-lg" type="text" placeholder="Email" {...register("email")} />
           </fieldset>
           <fieldset className="form-group">
             <input

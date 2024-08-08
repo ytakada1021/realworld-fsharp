@@ -1,8 +1,9 @@
 import { SettingsForm } from "./settingsForm";
 import { fetchSettings } from "./fetch";
+import { Suspense } from "react";
 
 const SettingsPage = async () => {
-  const { user } = await fetchSettings();
+  const user = fetchSettings();
 
   return (
     <div className="settings-page">
@@ -10,7 +11,9 @@ const SettingsPage = async () => {
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Your Settings</h1>
-            <SettingsForm user={user} />
+            <Suspense fallback={<p>⌛Loading...</p>}>
+              <SettingsForm user={user} />
+            </Suspense>
           </div>
         </div>
       </div>

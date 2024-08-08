@@ -5,17 +5,25 @@ import { ErrorMessage } from "@/modules/common/components/errorMessage";
 import { useToast } from "@/modules/common/components/toast";
 import { Tag } from "@/modules/features/article/components/tag";
 import { Article } from "@/shared/types";
-import { useState } from "react";
+import { use, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { updateArticleAction } from "./actions";
 import { Inputs } from "./types";
 
 type Props = {
-  article: Article;
+  article: Promise<Article>;
 };
 
-export const EditArticleForm = ({ article }: Props) => {
-  const { register, handleSubmit } = useForm<Inputs>();
+export const EditArticleForm = (props: Props) => {
+  const article = use(props.article);
+  const { register, handleSubmit } = useForm<Inputs>({
+    defaultValues: {
+      slug: article.slug,
+      title: article.title,
+      description: article.description,
+      body: article.body,
+    },
+  });
   const [errors, setErrors] = useState<string[]>([]);
   const { addToast } = useToast();
 
@@ -34,7 +42,7 @@ export const EditArticleForm = ({ article }: Props) => {
     <>
       <ErrorMessage errors={errors} />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" name="slug" value={article.slug} />
+        <input type="hidden" {...register("slug")} />
         <fieldset>
           <fieldset className="form-group">
             <input

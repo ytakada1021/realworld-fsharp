@@ -1,8 +1,9 @@
 import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
-import { Article, articleSchema, Comment, commentSchema } from "@/shared/types";
+import { Article, articleSchema, commentSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
-export const fetchArticle = async (slug: string): Promise<Article> => {
+export const fetchArticle = cache(async (slug: string): Promise<Article> => {
   const client = createApiClient({
     path: "/articles/{slug}",
     httpMethod: "get",
@@ -22,9 +23,9 @@ export const fetchArticle = async (slug: string): Promise<Article> => {
     }
     throw err;
   }
-};
+});
 
-export const fetchComments = async (slug: string): Promise<Comment[]> => {
+export const fetchComments = cache(async (slug: string) => {
   const client = createApiClient({
     path: "/articles/{slug}/comments",
     httpMethod: "get",
@@ -44,4 +45,4 @@ export const fetchComments = async (slug: string): Promise<Comment[]> => {
     }
     throw err;
   }
-};
+});

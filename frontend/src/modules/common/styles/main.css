@@ -6232,9 +6232,9 @@ footer .attribution {
   font-size: 3.5rem;
   padding-bottom: 0.5rem;
 }
-.home-page .feed-toggle {
+/* .home-page .feed-toggle {
   margin-bottom: -1px;
-}
+} */
 .home-page .sidebar {
   padding: 5px 10px 10px;
   background: #f3f3f3;
@@ -6366,7 +6366,7 @@ footer .attribution {
   border: 1px solid #999;
 }
 .profile-page .articles-toggle {
-  margin: 1.5rem 0 -1px;
+  margin: 1.5rem 0 0;
 }
 .editor-page .tag-list i {
   font-size: 0.6rem;

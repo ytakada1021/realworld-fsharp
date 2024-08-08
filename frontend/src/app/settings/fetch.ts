@@ -1,6 +1,7 @@
 "use server";
 
-import { createApiClient, isUnauthorizedError, isForbiddenError } from "@/shared/api/apiClient";
+import { createApiClient, isForbiddenError, isUnauthorizedError } from "@/shared/api/apiClient";
+import { userSchema } from "@/shared/types";
 import { redirect } from "next/navigation";
 
 export const fetchSettings = async () => {
@@ -10,7 +11,8 @@ export const fetchSettings = async () => {
   });
 
   try {
-    return client.sendRequest();
+    const response = await client.sendRequest();
+    return userSchema.parse(response.user);
   } catch (err) {
     if (isUnauthorizedError(err) || isForbiddenError(err)) {
       redirect("/login");

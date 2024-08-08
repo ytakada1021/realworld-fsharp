@@ -2,8 +2,33 @@ import { Pagination, PaginationItem } from "@/modules/common/components/paginati
 import { calcTotalPageNumber } from "@/modules/common/functions/pagination";
 import { ArticlePreview } from "@/modules/features/article/components/articlePreview";
 import Link from "next/link";
+import { Suspense } from "react";
 import { fetchArticlesByAuthor } from "./fetch";
-import { searchParamsSchema } from "./types";
+import { SearchParams, searchParamsSchema } from "./types";
+
+const ArticleList = async ({ username, searchParams }: { username: string; searchParams: SearchParams }) => {
+  const { articles, articlesCount } = await fetchArticlesByAuthor(username, searchParams.page);
+  const totalPages = calcTotalPageNumber(articlesCount, 10);
+
+  return (
+    <>
+      {articles.map((article, index) => (
+        <ArticlePreview article={article} key={index} />
+      ))}
+      <Pagination>
+        {[...Array(totalPages)].map((_, index) => {
+          const page = index + 1;
+          const href = `/profile/${username}/?page=${page}`;
+          return (
+            <PaginationItem href={href} active={page === searchParams.page} key={index}>
+              {page}
+            </PaginationItem>
+          );
+        })}
+      </Pagination>
+    </>
+  );
+};
 
 type Props = {
   params: {
@@ -14,8 +39,6 @@ type Props = {
 
 const ProfilePage = async (props: Props) => {
   const searchParams = searchParamsSchema.parse(props.searchParams);
-  const { articles, articlesCount } = await fetchArticlesByAuthor(props.params.username, searchParams.page);
-  const totalPages = calcTotalPageNumber(articlesCount, 10);
 
   return (
     <>
@@ -33,20 +56,9 @@ const ProfilePage = async (props: Props) => {
           </li>
         </ul>
       </div>
-      {articles.map((article, index) => (
-        <ArticlePreview article={article} key={index} />
-      ))}
-      <Pagination>
-        {[...Array(totalPages)].map((_, index) => {
-          const page = index + 1;
-          const href = `/profile/${props.params.username}/?page=${page}`;
-          return (
-            <PaginationItem href={href} active={page === searchParams.page} key={index}>
-              {page}
-            </PaginationItem>
-          );
-        })}
-      </Pagination>
+      <Suspense key={JSON.stringify(searchParams)} fallback={<p>⌛Loading...</p>}>
+        <ArticleList username={props.params.username} searchParams={searchParams} />
+      </Suspense>
     </>
   );
 };
